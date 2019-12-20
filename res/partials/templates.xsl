@@ -16,7 +16,7 @@
 						</xsl:if>
 						<xsl:attribute name="data-path"><xsl:value-of select="@path"/></xsl:attribute>
 						<span class="sidebar-icon">
-							<xsl:attribute name="style">background-image: url(/res/icons/finder-sidebar-<xsl:value-of select="@icon"/>);</xsl:attribute>
+							<xsl:attribute name="style">background-image: url(/app/ant/finder/icons/sidebar-<xsl:value-of select="@icon"/>.png);</xsl:attribute>
 							<title><xsl:value-of select="@name"/></title>
 						</span>
 						<span class="name"><xsl:value-of select="@name"/></span>
@@ -46,7 +46,7 @@
 								<xsl:with-param name="size" select="1" />
 							</xsl:call-template>
 							<xsl:if test="substring( @mode, 1, 1 ) = 'l'">
-								<div class="shortcut-item" style="background-image: url(/res/icons/file-shortcut);"></div>
+								<div class="shortcut-item" style="background-image: url(/app/finder/icons/file-shortcut.png);"></div>
 							</xsl:if>
 						</i>
 						<span class="name"><xsl:value-of select="@name"/></span>
@@ -99,7 +99,7 @@
 				<i class="item-icon">
 					<xsl:call-template name="sys:icon-kind"/>
 					<xsl:if test="substring( @mode, 1, 1 ) = 'l'">
-						<div class="shortcut-item" style="background-image: url(/res/icons/file-shortcut);"></div>
+						<div class="shortcut-item" style="background-image: url(/app/finder/icons/file-shortcut.png);"></div>
 					</xsl:if>
 				</i>
 				<span><xsl:value-of select="@name"/></span>
@@ -141,7 +141,7 @@
 							<span><xsl:call-template name="sys:icon-kind"/></span>
 						</xsl:if>
 						<xsl:if test="substring( @mode, 1, 1 ) = 'l'">
-							<div class="shortcut-item" style="background-image: url(/res/icons/file-shortcut);"></div>
+							<div class="shortcut-item" style="background-image: url(/app/finder/icons/file-shortcut.png);"></div>
 						</xsl:if>
 					</div>
 				</xsl:otherwise>
@@ -178,7 +178,7 @@
 					<xsl:when test="@kind = 'app'">
 						<div class="file-app">
 							<div class="app-icon">
-								<xsl:attribute name="style">background-image: url(/res/icons/<xsl:value-of select="@icon"/>);</xsl:attribute>
+								<xsl:attribute name="style">background-image: url(/app/finder/icons/<xsl:value-of select="@icon"/>.png);</xsl:attribute>
 							</div>
 						</div>
 					</xsl:when>
