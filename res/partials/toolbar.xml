@@ -1,0 +1,20 @@
+<ToolBar>
+	<Group width="20%">
+		<Options>
+			<Tool symbol="finder-icon-arrow-left" state="disabled"/>
+			<Tool symbol="finder-icon-arrow-right" state="disabled"/>
+		</Options>
+	</Group>
+	<Group width="49%">
+		<Options>
+			<Tool symbol="finder-icon-view-icons" click="select-file-view" arg="icons"/>
+			<Tool symbol="finder-icon-view-list" click="select-file-view" arg="list"/>
+			<Tool symbol="finder-icon-view-columns" click="select-file-view" arg="columns"/>
+			<Tool symbol="finder-icon-view-flow" click="select-file-view" arg="flow"/>
+		</Options>
+		<Tool symbol="finder-icon-gear" menu="toolbar-context"/>
+	</Group>
+	<Group width="31%">
+		<Search placeholder="Search"/>
+	</Group>
+</ToolBar>

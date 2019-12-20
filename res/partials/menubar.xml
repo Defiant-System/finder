@@ -1,0 +1,52 @@
+<MenuBar>
+	<Menu name="Finder">
+		<Menu name="About Finder"/>
+		<Menu type="divider"/>
+		<Menu name="Preferences"/>
+		<Menu type="divider"/>
+		<Menu name="Emptry Trash"/>
+		<Menu type="divider"/>
+		<Menu name="Services">
+			<Menu name="Open"/>
+			<Menu name="Close"/>
+		</Menu>
+		<Menu type="divider"/>
+		<Menu name="Hide Finder"/>
+		<Menu name="Hide Others"/>
+		<Menu name="Show All" disabled="1"/>
+		<Menu type="divider"/>
+		<Menu name="Quit Finder" shell="win -c"/>
+	</Menu>
+	<Menu name="Edit">
+		<Menu name="Cut"/>
+		<Menu name="Copy"/>
+		<Menu name="Paste"/>
+		<Menu type="divider"/>
+		<Menu name="License"/>
+	</Menu>
+	<Menu name="View" for="toolbar-context">
+		<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as" is-checked="1"/>
+		<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
+		<Menu name="as Columns" click="select-file-view" arg="columns" check-group="view-items-as"/>
+		<Menu name="as Gallery" click="select-file-view" arg="flow" check-group="view-items-as"/>
+		<Menu type="divider"/>
+		<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons"/>
+		<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
+		<Menu name="Hide Status Bar" toggle_false="Show Status Bar" click="toggle-statusbar-view"/>
+		<Menu type="divider"/>
+		<Menu name="Hide Toolbar" toggle_true="Show Toolbar" click="toggle-toolbar"/>
+	</Menu>
+	<Menu name="Window">
+		<Menu name="Minimize" shell="win -s min"/>
+		<Menu name="Maximize" shell="win -s max"/>
+		<Menu type="divider"/>
+		<Menu name="Close Window" shell="win -c"/>
+	</Menu>
+	<Menu name="Help">
+		<Menu name="Send Finder Feedback"/>
+		<Menu type="divider"/>
+		<Menu name="Finder Help"/>
+		<Menu type="divider"/>
+		<Menu name="License"/>
+	</Menu>
+</MenuBar>
