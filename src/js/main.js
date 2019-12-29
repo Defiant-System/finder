@@ -1,6 +1,6 @@
 
-import sideBar from "./modules/sideBar"
-import contentView from "./modules/contentView"
+import sideBar from "./sideBar"
+import contentView from "./contentView"
 
 let path;
 
