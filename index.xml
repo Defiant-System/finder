@@ -2,6 +2,7 @@
 	<Head>
 		<meta name="id" value="finder"/>
 		<meta name="title" value="Finder" version="1.0"/>
+		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0-or-later"/>
 		<meta name="width" value="760" min="500"/>
 		<meta name="height" value="380" min="300"/>
