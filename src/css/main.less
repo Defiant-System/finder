@@ -1,5 +1,4 @@
 
-@import "./mixins";
 
 &.focused {
 	sidebar {
@@ -22,7 +21,7 @@ layout {
 sidebar {
 	width: 160px;
 	overflow-x: hidden;
-	.select(none);
+	user-select: none;
 
 	&.hidden {
 		width: 0;
@@ -106,12 +105,12 @@ sidebar {
 			position: relative;
 			max-height: 500px;
 			overflow: hidden;
-			.transition(300ms);
+			transition: all 300ms;
 
 			ul {
 				list-style: none;
 				margin-top: 0;
-				.transition(300ms);
+				transition: all 300ms;
 				
 				li {
 					position: relative;
@@ -189,7 +188,7 @@ content {
 				height: var(--icon-size);
 				margin: 5px 3px 31px;
 				text-align: center;
-				.select(none);
+				user-select: none;
 
 				&.active {
 					.preview-box:before,
@@ -281,7 +280,7 @@ content {
 						top: 59%;
 						left: 50%;
 						width: 35%;
-						.transform( translateX(-50%) translateY(-50%) );
+						transform: translateX(-50%) translateY(-50%);
 
 						&:before {
 							content: "";
@@ -308,7 +307,7 @@ content {
 							left: 50%;
 							opacity: 0.29;
 							margin: 0;
-							.transform( translateX(-50%) translateY(-50%) );
+							transform: translateX(-50%) translateY(-50%);
 						}
 					}
 				}
@@ -343,10 +342,10 @@ content {
 				display: flex;
 				color: #7a8394;
 				border-bottom: 1px solid #cecece;
-				.select(none);
+				user-select: none;
 
 				&[data-order = "ascending"] span.active:before {
-					.transform( rotate(180deg) );
+					transform: rotate(180deg);
 				}
 
 				> span {
@@ -396,12 +395,12 @@ content {
 					overflow: hidden;
 					
 					&.collapse > div {
-						.transitionWhat(margin-top, 300ms);
+						transition: margin-top 300ms;
 						margin-top: -100%;
 					}
 
 					> div {
-						.animation(expandSubList 300ms ease);
+						animation: expandSubList 300ms ease;
 					}
 
 					.file {
@@ -411,7 +410,7 @@ content {
 
 				.file {
 					height: 1.77em;
-					.select(none);
+					user-select: none;
 
 					&[data-kind="_dir"],
 					&[data-kind="app"] {
@@ -468,10 +467,10 @@ content {
 						width: 10px;
 						height: 10px;
 						opacity: 0.65;
-						.transitionWhat(transform, 80ms);
+						transition: transform 80ms;
 
 						&.down {
-							.transform( rotate(90deg) );
+							transform: rotate(90deg);
 						}
 					}
 
@@ -530,7 +529,7 @@ content {
 			position: relative;
 			width: 190px;
 			height: 100%;
-			padding: 0 1px 1px;
+			padding: 0 0 1px;
 			overflow-x: hidden;
 			overflow-y: auto;
 			vertical-align: text-top;
@@ -557,7 +556,7 @@ content {
 				position: relative;
 				display: block;
 				height: 21px;
-				margin: 1px 0 0 0;
+				margin: 1px 1px 0 1px;
 				padding-right: 22px;
 				padding-left: 4px;
 
@@ -630,7 +629,7 @@ content {
 					overflow: hidden;
 					text-overflow: ellipsis;
 					padding: 5px 0 0 1px;
-					.select(none);
+					user-select: none;
 				}
 			}
 
@@ -655,7 +654,7 @@ content {
 						position: absolute;
 						top: 11px;
 						left: 11px;
-						right: 11px;
+						right: 12px;
 						bottom: 11px;
 						padding: 3px 5px 5px;
 						overflow: auto;
@@ -696,7 +695,7 @@ content {
 							left: 50%;
 							width: 61%;
 							height: 61%;
-							.transform( translateX(-50%) translateY(-50%) );
+							transform: translateX(-50%) translateY(-50%);
 						}
 					}
 
@@ -706,7 +705,7 @@ content {
 						height: 100%;
 
 						.generic-document {
-							background: url(/app/finder/icons/generic-document.png) 50% 50%/contain no-repeat;
+							background: url(/ant/icons/generic-document.png) 50% 50%/contain no-repeat;
 							width: 90%;
 							height: 90%;
 							margin: 0 auto;
@@ -721,7 +720,7 @@ content {
 							top: 51%;
 							left: 50%;
 							width: 42%;
-							.transform( translateX(-50%) translateY(-50%) );
+							transform: translateX(-50%) translateY(-50%);
 
 							&:before {
 								content: "";
@@ -798,7 +797,7 @@ content {
 	}
 }
 
-.keyframes(expandSubList; {
+@keyframes expandSubList {
 	0%   { margin-top: -100%; }
 	100% { margin-top: 0; }
-});
+};

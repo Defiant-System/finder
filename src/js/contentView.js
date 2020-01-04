@@ -29,12 +29,14 @@ let contentView = {
 		let self = contentView,
 			target,
 			file,
+			isDir,
 			el,
 			pEl,
 			name,
 			path,
 			template,
 			fileView;
+
 		switch (event.type) {
 			case "input":
 				window.settings("iconSize", this.value);
@@ -45,6 +47,11 @@ let contentView = {
 				await this.setCwd(cwd.path);
 				// toolbar
 				window.find("[data-arg='"+ this.type +"']").trigger("click");
+
+				setTimeout(() => {
+					// temp
+					self.content.find(".file:nth(5) span").trigger("click");
+				}, 300);
 				break;
 			case "select-file-view":
 				fileView = event.arg;
@@ -89,6 +96,7 @@ let contentView = {
 			case "select-column-file":
 				target = $(event.target);
 				file = target.parents(".file:first");
+				isDir = file.attr("data-kind") === "_dir";
 
 				if (target.attr("data-click") === event.type) {
 					target.nextAll(".column").remove();
@@ -106,14 +114,14 @@ let contentView = {
 
 				name = file.find("span.name").text();
 				path = pEl.attr("data-path") +"/"+ name;
-				template = file.attr("data-kind") === "_dir" ? "fileView" : "filePreview"
+				template = isDir ? "fileView" : "filePreview"
 
 				if (file.attr("data-link")) {
 					let linkPath = await defiant.shell(`fs -j "${pEl.attr("data-path")}" "${file.attr("data-link")}"`);
 					path = "/"+ linkPath.result;
 				}
 				
-				if (file.attr("data-kind") === "_dir") {
+				if (isDir) {
 					// make sure folder contents is loaded
 					await defiant.shell(`fs -r "${path}"`);
 
@@ -228,7 +236,7 @@ let contentView = {
 	},
 	async renderPath(path) {
 		// make sure folder contents is loaded
-		await defiant.shell(`fs -r "${path}"`);
+		await defiant.shell(`fs -r '${path}'`);
 
 		// set current working directory is saved
 		await this.setCwd(path);
