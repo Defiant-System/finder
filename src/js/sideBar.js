@@ -10,6 +10,9 @@ let sideBar = {
 
 		this.el = window.find("sidebar");
 
+		let favorites = window.settings("sidebar");
+		console.log(favorites);
+
 		window.render({
 			template: "sideBar",
 			match: `//Settings/*[@app-id="finder"]/*[@id="sidebar"]`,

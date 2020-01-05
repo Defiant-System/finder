@@ -403,9 +403,11 @@ content {
 						animation: expandSubList 300ms ease;
 					}
 
-					.file {
-						padding-left: 21px;
-					}
+					.file { padding-left: 21px; }
+					.subList .file { padding-left: 42px }
+					.subList .subList .file { padding-left: 63px }
+					.subList .subList .subList .file { padding-left: 84px }
+					.subList .subList .subList .subList .file { padding-left: 105px }
 				}
 
 				.file {
@@ -460,7 +462,7 @@ content {
 					}
 
 					.arrow-right {
-						background: url(/app/finder/icons/icon-arrow-right.png) 50% 50%/contain no-repeat;
+						background: url(/ant/icons/icon-arrow-right.png) 50% 50%/contain no-repeat;
 						position: absolute;
 						top: 5px;
 						left: 5px;
@@ -719,7 +721,7 @@ content {
 							position: absolute;
 							top: 51%;
 							left: 50%;
-							width: 42%;
+							width: 31%;
 							transform: translateX(-50%) translateY(-50%);
 
 							&:before {
@@ -785,7 +787,8 @@ content {
 							white-space: nowrap;
 							overflow: hidden;
 							width: 59%;
-
+							height: 13px;
+							
 							span {
 								vertical-align: top;
 							}
