@@ -19,7 +19,7 @@
 							<xsl:attribute name="style">background-image: url(~/icons/sidebar-<xsl:value-of select="@icon"/>.png);</xsl:attribute>
 							<title><xsl:value-of select="@name"/></title>
 						</span>
-						<span class="name"><xsl:value-of select="@name"/></span>
+						<span class="name"><xsl:call-template name="sys:get-item-name"/></span>
 					</li>
 					</xsl:for-each>
 				</ul>
@@ -30,7 +30,7 @@
 
 <xsl:template name="fileView">
 	<xsl:choose>
-		<xsl:when test="//Settings/i[@app-id = 'finder']/i[@id = 'fileView' and @value = 'columns']">
+		<xsl:when test="//Application/Settings/i[@id = 'fileView' and @value = 'columns']">
 			<div class="column right-resize" data-click="select-column-file" data-dblclick="open-column-file">
 				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<xsl:for-each select="./*">
@@ -54,7 +54,7 @@
 				</xsl:for-each>
 			</div>
 		</xsl:when>
-		<xsl:when test="//Settings/i[@app-id = 'finder']/i[@id = 'fileView' and @value = 'list']">
+		<xsl:when test="//Application/Settings/i[@id = 'fileView' and @value = 'list']">
 			<div class="list">
 				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<div class="list-header" data-order="ascending" data-click="sort-file-view-by">

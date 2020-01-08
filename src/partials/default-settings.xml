@@ -2,16 +2,18 @@
 	<i id="fileView" value="columns"/>
 	<i id="defaultPath" value="/doc/"/>
 	<i id="iconSize" value="79"/>
-	<i id="favorites">
-		<item icon="home" path="/"/>
-		<item icon="desktop" path="/usr"/>
-		<item icon="documents" path="/doc"/>
-		<item icon="applications" path="/app"/>
-		<item icon="folder" path="/doc/mp3"/>
-	</i>
-	<i id="external">
-		<item icon="icloud-drive" name="iCloud Drive"/>
-		<item icon="google-drive" name="Google Drive"/>
-		<item icon="dropbox" name="Dropbox"/>
+	<i id="sidebar">
+		<block name="Favorites">
+			<item icon="home" path="/"/>
+			<item icon="desktop" path="/usr"/>
+			<item icon="documents" path="/doc"/>
+			<item icon="applications" path="/app"/>
+			<item icon="folder" path="/doc/mp3"/>
+		</block>
+		<block name="External Disks">
+			<item icon="icloud-drive" name="iCloud Drive"/>
+			<item icon="google-drive" name="Google Drive"/>
+			<item icon="dropbox" name="Dropbox"/>
+		</block>
 	</i>
 </Settings>

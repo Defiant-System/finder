@@ -3,19 +3,16 @@ let finder;
 let contentView;
 
 let sideBar = {
-	init(_finder, _contentView) {
+	async init(_finder, _contentView) {
 		// fast and direct references
 		finder = _finder;
 		contentView = _contentView;
 
 		this.el = window.find("sidebar");
 
-		let favorites = window.settings("sidebar");
-		console.log(favorites);
-
 		window.render({
 			template: "sideBar",
-			match: `//Settings/*[@app-id="finder"]/*[@id="sidebar"]`,
+			match: `~//Settings/*[@id="sidebar"]`,
 			target: this.el
 		});
 	},

@@ -10,7 +10,7 @@
 			<Tool symbol="icon-view-icons" click="select-file-view" arg="icons"/>
 			<Tool symbol="icon-view-list" click="select-file-view" arg="list"/>
 			<Tool symbol="icon-view-columns" click="select-file-view" arg="columns"/>
-			<Tool symbol="icon-view-flow" click="select-file-view" arg="flow"/>
+			<!--<Tool symbol="icon-view-flow" click="select-file-view" arg="flow"/>-->
 		</Options>
 		<Tool symbol="icon-gear" menu="toolbar-context"/>
 	</Group>

@@ -48,10 +48,10 @@ let contentView = {
 				// toolbar
 				window.find("[data-arg='"+ this.type +"']").trigger("click");
 
-				setTimeout(() => {
-					// temp
-					self.content.find(".file:nth(5) span").trigger("click");
-				}, 300);
+			//	setTimeout(() => {
+			//		// temp
+			//		self.content.find(".file:nth(5) span").trigger("click");
+			//	}, 300);
 				break;
 			case "select-file-view":
 				fileView = event.arg;
