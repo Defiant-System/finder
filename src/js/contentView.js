@@ -15,7 +15,7 @@ let contentView = {
 		this.content = window.el.find("content");
 		this.iconResizer = window.statusBar.find("#icon-resizer");
 
-		disk = await defiant.shell("fs -dh");
+		disk = await defiant.shell("fs -ih");
 		disk = disk.result;
 
 		let iconSize = window.settings("iconSize") || 79;
