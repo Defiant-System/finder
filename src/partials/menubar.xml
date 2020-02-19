@@ -25,10 +25,17 @@
 		<Menu name="License"/>
 	</Menu>
 	<Menu name="View" for="toolbar-context">
-		<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as" is-checked="1"/>
-		<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
-		<Menu name="as Columns" click="select-file-view" arg="columns" check-group="view-items-as"/>
-		<Menu name="as Gallery" click="select-file-view" arg="flow" check-group="view-items-as"/>
+		<Menu name="View&#8230;" for="view-options">
+			<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as"/>
+			<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
+			<Menu name="as Columns" click="select-file-view" arg="columns" check-group="view-items-as" is-checked="1"/>
+		</Menu>
+		<Menu name="Sort By&#8230;" for="view-sort-by">
+			<Menu name="Name" check-group="sort-items-by" is-checked="1"/>
+			<Menu name="Kind" check-group="sort-items-by"/>
+			<Menu name="Size" check-group="sort-items-by"/>
+			<Menu name="Date Modified" check-group="sort-items-by"/>
+		</Menu>
 		<Menu type="divider"/>
 		<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons"/>
 		<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
@@ -50,3 +57,11 @@
 		<Menu name="License"/>
 	</Menu>
 </MenuBar>
+
+<Menu for="folder-content">
+	<Menu name="New Folder" click="create-new-folder"/>
+	<Menu type="divider"/>
+	<Menu name="Get Info"/>
+	<Menu name="View&#8230;" invoke="view-options"/>
+	<Menu name="Sort By&#8230;" invoke="view-sort-by"/>
+</Menu>

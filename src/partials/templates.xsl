@@ -31,7 +31,7 @@
 <xsl:template name="fileView">
 	<xsl:choose>
 		<xsl:when test="//Application/Settings/i[@id = 'fileView' and @value = 'columns']">
-			<div class="column right-resize" data-click="select-column-file" data-dblclick="open-column-file">
+			<div class="column right-resize" data-context="folder-content" data-click="select-column-file" data-dblclick="open-column-file">
 				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<xsl:for-each select="./*">
 					<xsl:sort order="descending" select="substring( @mode, 1, 1 ) = 'd'"/>
@@ -55,7 +55,7 @@
 			</div>
 		</xsl:when>
 		<xsl:when test="//Application/Settings/i[@id = 'fileView' and @value = 'list']">
-			<div class="list">
+			<div class="list" data-context="folder-content">
 				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<div class="list-header" data-order="ascending" data-click="sort-file-view-by">
 					<span data-sort="@name" data-type="text" class="right-resize active ascending">Name</span>
@@ -69,7 +69,7 @@
 			</div>
 		</xsl:when>
 		<xsl:otherwise>
-			<div class="icons" data-click="select-icon-file" data-dblclick="open-icon-file">
+			<div class="icons" data-context="folder-content" data-click="select-icon-file" data-dblclick="open-icon-file">
 				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<xsl:call-template name="fileView-icons"/>
 			</div>
