@@ -56,7 +56,6 @@
 		</xsl:when>
 		<xsl:when test="//Application/Settings/i[@id = 'fileView' and @value = 'list']">
 			<div class="list" data-context="folder-content">
-				<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 				<div class="list-header" data-order="ascending" data-click="sort-file-view-by">
 					<span data-sort="@name" data-type="text" class="right-resize active ascending">Name</span>
 					<span data-sort="@mStamp" data-type="number" class="right-resize">Date Modified</span>
@@ -64,6 +63,7 @@
 					<span data-sort="@kind" data-type="text">Kind</span>
 				</div>
 				<div class="list-body" data-click="select-list-file" data-dblclick="open-list-file">
+					<xsl:attribute name="data-path"><xsl:call-template name="sys:get-file-path"/></xsl:attribute>
 					<xsl:call-template name="fileView-list"/>
 				</div>
 			</div>

@@ -50,8 +50,9 @@ let contentView = {
 
 			//	setTimeout(() => {
 			//		// temp
-			//		self.content.find(".file:nth(5) span").trigger("click");
-			//	}, 300);
+			//		//self.content.find(".file:nth(0) span").trigger("click");
+			//		self.dispatch({ type: "select-file-view", arg: "list" });
+			//	}, 1300);
 				break;
 			case "select-file-view":
 				fileView = event.arg;
