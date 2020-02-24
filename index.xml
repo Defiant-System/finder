@@ -8,13 +8,13 @@
 		<meta name="height" value="380" min="300"/>
 		<meta name="top" value="320"/>
 		<meta name="left" value="160"/>
-		<meta name="fullscreen" value="true1"/>
+		<meta name="clones" value="true"/>
 		<meta name="minimize"/>
 		<meta name="maximize"/>
 		<meta name="resize"/>
 		<meta name="statusbar"/>
 		<meta name="script" value="src/js/main.js"/>
-		<meta name="style" value="src/css/main.less" toolbar="src/css/toolbar.less" statusbar="src/css/statusbar.less"/>
+		<meta name="style" value="src/css/main.less" toolbar="src/css/toolbar.less"/>
 		<meta name="icons" value="src/svg/icons.svg"/>
 		<meta name="content" value="src/partials/content.htm"/>
 		<meta name="xsl" value="src/partials/templates.xsl"/>
@@ -25,7 +25,7 @@
 	<Foot>
 		<Group>
 			<Text class="content"></Text>
-			<Slider id="icon-resizer" value="79" min="53" max="181"></Slider>
+			<Slider class="icon-resizer" value="79" min="53" max="181"></Slider>
 		</Group>
 	</Foot>
 

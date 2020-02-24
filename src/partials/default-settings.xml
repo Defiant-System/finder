@@ -1,5 +1,5 @@
 <Settings type="default">
-	<i id="fileView" value="columns"/>
+	<i id="fileView" value="icons"/>
 	<i id="defaultPath" value="/doc/"/>
 	<i id="iconSize" value="79"/>
 	<i id="sidebar">

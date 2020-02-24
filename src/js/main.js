@@ -1,27 +1,39 @@
 
-import sideBar from "./sideBar"
-import contentView from "./contentView"
+ant_require("./sideBar.js");
+ant_require("./contentView.js");
 
+let cwd = {};
+let disk;
 let path;
 
 const finder = {
 	init() {
-		sideBar.init(finder, contentView);
-		contentView.init(finder, sideBar);
+		sideBar.init();
+		contentView.init();
+
+		setTimeout(() => this.dispatch({type: "new-clone-window"}), 800);
 	},
 	async dispatch(event) {
-		let isOn;
+		let isOn,
+			command;
+		//console.log(event);
 		switch (event.type) {
 			case "open.file":
 				path = event.path;
 				contentView.dispatch({type: "open-folder", path});
 				break;
-			case "window.open":
-				if (path) return;
-				contentView.dispatch({
-					type: "open-folder",
-					path: window.settings("defaultPath")
-				});
+			case "window.focus":
+				sideBar.dispatch({ type: "set-dom-context" });
+				contentView.dispatch({ type: "set-dom-context" });
+				break;
+			case "new-clone-window":
+				let command = await defiant.shell(`win -n finder`);
+				// auto-switch DOM context
+				sideBar.init();
+				contentView.init();
+				break;
+			case "close-clone-window":
+				//console.log(event);
 				break;
 			case "toggle-sidebar-block":
 			case "toggle-sidebar-icons":

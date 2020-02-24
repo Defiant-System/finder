@@ -1,23 +1,25 @@
 
-let finder;
-let sidebar;
-let disk;
-const cwd = {};
+const contentView = {
+	async init() {
+		// auto-switch dom context
+		this.dispatch({ type: "set-dom-context" });
 
-let contentView = {
-	async init(_finder, _sidebar) {
-		// fast and direct references
-		finder = _finder;
-		sidebar = _sidebar;
-
+		// fast references
 		this.type = window.settings("fileView") || "columns";
-		this.el = window.el.find("content > div");
-		this.content = window.el.find("content");
-		this.iconResizer = window.statusBar.find("#icon-resizer");
 
-		disk = await defiant.shell("fs -ih");
-		disk = disk.result;
+		// auto render content view
+		this.dispatch({
+			type: "open-folder",
+			path: window.settings("defaultPath")
+		});
 
+		if (!disk) {
+			// disk info
+			disk = await defiant.shell("fs -ih");
+			disk = disk.result;
+		}
+
+		// initial value for icon resizer
 		let iconSize = window.settings("iconSize") || 79;
 		this.content.attr({style: `--icon-size: ${iconSize}px`});
 		this.iconResizer.val(iconSize);
@@ -38,6 +40,12 @@ let contentView = {
 			fileView;
 
 		switch (event.type) {
+			case "set-dom-context":
+				// fast references
+				self.el = window.el.find("content > div");
+				self.content = window.el.find("content");
+				self.iconResizer = window.find(".icon-resizer");
+				break;
 			case "input":
 				window.settings("iconSize", this.value);
 				self.content.attr({style: `--icon-size: ${this.value}px`});
@@ -59,8 +67,8 @@ let contentView = {
 				// update setting
 				window.settings("fileView", fileView);
 
-				this.el.prop({"className": "view-"+ fileView});
-				this.renderPath(cwd.path);
+				self.el.prop({"className": "view-"+ fileView});
+				self.renderPath(cwd.path);
 
 				// toolbar UI update
 				el = window.find("[data-arg='"+ fileView +"']");
@@ -68,7 +76,7 @@ let contentView = {
 				el.addClass("toolbar-active_");
 
 				// show status-bar slider only for icons view
-				window.statusBar.toggleClass("showSlider", fileView !== "icons");
+				self.iconResizer.css({display: fileView === "icons" ? "block" : "none"});
 				break;
 			case "select-icon-file":
 				target = $(event.target);
@@ -255,5 +263,3 @@ let contentView = {
 		//window.find(".file:nth-child(7) .name").trigger("click");
 	}
 };
-
-export default contentView;

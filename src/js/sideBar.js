@@ -1,14 +1,7 @@
 
-let finder;
-let contentView;
-
-let sideBar = {
-	async init(_finder, _contentView) {
-		// fast and direct references
-		finder = _finder;
-		contentView = _contentView;
-
-		this.el = window.find("sidebar");
+const sideBar = {
+	init() {
+		this.dispatch({ type: "set-dom-context" });
 
 		window.render({
 			template: "sideBar",
@@ -17,10 +10,15 @@ let sideBar = {
 		});
 	},
 	async dispatch(event) {
-		let path,
+		let self = sideBar,
+			path,
 			isOn,
 			str;
 		switch (event.type) {
+			case "set-dom-context":
+				// fast references
+				self.el = window.el.find("sidebar");
+				break;
 			case "toggle-sidebar-icons":
 				isOn = sideBar.el.hasClass("icon-view");
 				sideBar.el.toggleClass("icon-view", isOn);
@@ -44,5 +42,3 @@ let sideBar = {
 		}
 	}
 };
-
-export default sideBar;
