@@ -45,6 +45,7 @@
 	</Menu>
 	<Menu name="Window">
 		<Menu name="New Finder Window" click="new-clone-window" hotkey="alt+n"/>
+		<Menu name="New Tab" click="new-tab" hotkey="alt+t"/>
 		<Menu type="divider"/>
 		<Menu name="Minimize" shell="win -s min"/>
 		<Menu name="Maximize" shell="win -s max"/>

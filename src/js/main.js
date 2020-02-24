@@ -11,7 +11,8 @@ const finder = {
 		sideBar.init();
 		contentView.init();
 
-		setTimeout(() => this.dispatch({type: "new-clone-window"}), 800);
+		//setTimeout(() => this.dispatch({type: "new-clone-window"}), 800);
+		//setTimeout(() => this.dispatch({type: "new-tab"}), 800);
 	},
 	async dispatch(event) {
 		let isOn,
@@ -26,14 +27,21 @@ const finder = {
 				sideBar.dispatch({ type: "set-dom-context" });
 				contentView.dispatch({ type: "set-dom-context" });
 				break;
+			case "new-tab":
+				// let defPath = window.settings("defaultPath");
+				// command = await defiant.shell(`fs -g '${defPath}'`);
+				console.log(window.title);
+				
+				window.tabbarAdd("test");
+				break;
 			case "new-clone-window":
-				let command = await defiant.shell(`win -n finder`);
+				command = await defiant.shell(`win -n finder`);
 				// auto-switch DOM context
 				sideBar.init();
 				contentView.init();
 				break;
 			case "close-clone-window":
-				//console.log(event);
+				window.close();
 				break;
 			case "toggle-sidebar-block":
 			case "toggle-sidebar-icons":

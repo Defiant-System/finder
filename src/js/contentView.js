@@ -53,6 +53,13 @@ const contentView = {
 			case "open-folder":
 				cwd.path = event.path;
 				await this.setCwd(cwd.path);
+				
+				// sidebar
+				let sidebarEl = sideBar.el.find(`[data-path="${cwd.path.slice(0,-1)}"]`);
+				if (sidebarEl.length) {
+					sidebarEl.get(0).addClass("active");
+				}
+
 				// toolbar
 				window.find("[data-arg='"+ this.type +"']").trigger("click");
 
@@ -246,6 +253,10 @@ const contentView = {
 	async renderPath(path) {
 		// make sure folder contents is loaded
 		await defiant.shell(`fs -r '${path}'`);
+
+		// update window title
+		let command = await defiant.shell(`fs -g '${path}'`);
+		window.title = command.result;
 
 		// set current working directory is saved
 		await this.setCwd(path);
