@@ -16,7 +16,8 @@ const finder = {
 	},
 	async dispatch(event) {
 		let isOn,
-			command;
+			clone,
+			tab;
 		//console.log(event);
 		switch (event.type) {
 			case "open.file":
@@ -32,10 +33,10 @@ const finder = {
 				// command = await defiant.shell(`fs -g '${defPath}'`);
 				console.log(window.title);
 				
-				window.tabbarAdd("test");
+				window.addTab("test");
 				break;
 			case "new-clone-window":
-				command = await defiant.shell(`win -n finder`);
+				clone = window.clone();
 				// auto-switch DOM context
 				sideBar.init();
 				contentView.init();
