@@ -1,9 +1,4 @@
 
-let cwd = {
-	path: defiant.setting("defaultPath"),
-};
-let disk;
-
 const contentView = {
 	init() {
 		// auto-switch dom context
@@ -40,11 +35,36 @@ const contentView = {
 				break;
 		}
 	},
-	renderPath(path) {
-		if (path) cwd.path = path;
+	async renderPath(path) {
+		if (path) state.cwd.path = path;
+		let name = window.path.dirname(state.cwd.path),
+			fileView = defiant.setting("fileView"),
+			el,
+			str;
+
+		// set current working directory
+		await finder.setCwd(path);
+
+		// update window title
+		window.title = name;
+
+		// toolbar UI update
+		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.hIndex > 0);
+		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.hIndex < state.history.length - 1);
+
+		// update sidebar
+		sideBar.el.find("li.active").removeClass("active");
+		sideBar.el.find(`li[data-path="${state.cwd.path}"]`).addClass("active");
+
+		// update status-bar
+		str = `${state.cwd.list.length} items, ${disk.avail} available`;
+		window.statusBar.find(".content").text(str);
+
+		// show status-bar slider only for icons view
+		this.iconResizer.css({display: fileView === "icons" ? "block" : "none"});
 
 		window.render({
-			path: cwd.path,
+			path: state.cwd.path,
 			template: "sys:fs-fileView",
 			target: this.el
 		});

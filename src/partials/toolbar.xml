@@ -1,8 +1,8 @@
 <ToolBar>
 	<Group width="20%">
 		<Options>
-			<Tool symbol="icon-arrow-left" state="disabled"/>
-			<Tool symbol="icon-arrow-right" state="disabled"/>
+			<Tool symbol="icon-arrow-left" click="history-go" arg="-1" state="disabled"/>
+			<Tool symbol="icon-arrow-right" click="history-go" arg="1" state="disabled"/>
 		</Options>
 	</Group>
 	<Group width="49%">
