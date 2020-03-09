@@ -13,11 +13,18 @@ const finder = {
 		switch (event.type) {
 			case "open.file":
 				break;
-			case "toggle-sidebar-block":
-			case "toggle-sidebar-icons":
+			case "new-clone-window":
+				break;
+			case "new-tab":
+				break;
+			case "close-clone-window":
+				break;
 			case "get-sidebar-item":
+				// forward event to sidebar
 				return sideBar.dispatch(event);
+			case "select-file-view":
 			case "set-icon-size":
+				// forward event to contentView
 				return contentView.dispatch(event);
 		}
 	}

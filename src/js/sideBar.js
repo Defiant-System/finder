@@ -5,11 +5,18 @@ const sideBar = {
 		
 		window.render({
 			template: "sys:fs-sideBar",
-			match: `~//Settings/*[@id="sidebar"]`,
+			match: `//Settings/Finder/*[@id="sidebar"]`,
 			target: this.el,
 		});
 	},
 	dispatch(event) {
+		let self = sideBar,
+			el;
 
+		switch (event.type) {
+			case "get-sidebar-item":
+				contentView.renderPath(event.arg);
+				break;
+		}
 	}
 };

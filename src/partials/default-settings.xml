@@ -1,4 +1,5 @@
 <Settings type="default">
+	<!--
 	<i id="fileView" value="columns"/>
 	<i id="defaultPath" value="/usr/"/>
 	<i id="iconSize" value="79"/>
@@ -16,4 +17,5 @@
 			<item icon="dropbox" name="Dropbox"/>
 		</block>
 	</i>
+	-->
 </Settings>
