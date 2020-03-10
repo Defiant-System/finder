@@ -4,10 +4,10 @@ ant_require("./contentView.js");
 
 let disk;
 let states = [{
-		cwd: { path: defiant.setting("defaultPath"), list: [] },
 		tab: window.tabs.getActive(),
 		hIndex: 0,
 		history: [],
+		cwd: { path: defiant.setting("defaultPath"), list: [] },
 	}];
 let state = states[0]; // active state index = 0
 
@@ -26,9 +26,13 @@ const finder = {
 		contentView.init();
 
 		// temp
-		// this.dispatch({type: "new-tab"});
-		// sideBar.el.find("li[data-path='/app']").trigger("click");
+		//this.dispatch({type: "new-tab"});
+		//sideBar.el.find("li[data-path='/app']").trigger("click");
 		// states[0].tab.trigger("click");
+
+		//contentView.el.find(".file:nth(0)").trigger("click");
+
+		//setTimeout(() => sideBar.el.find("li[data-path='/']").trigger("click"), 500);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -55,6 +59,8 @@ const finder = {
 
 				states.push({
 					tab,
+					hIndex: 0,
+					history: [defiant.setting("defaultPath")],
 					cwd: { path: defiant.setting("defaultPath"), list: [] }
 				});
 				state = states[tab.index()];
@@ -75,17 +81,12 @@ const finder = {
 			case "close-clone-window":
 				break;
 
-
 			case "history-go":
 				index = parseInt(event.arg, 10);
-
 				// contrain history index
 				state.hIndex = Math.min(Math.max(0, state.hIndex + index), state.history.length - 1);
-				
 				contentView.renderPath(state.history[state.hIndex]);
-
-				event.el.removeClass(".toolbar-active_");
-				return -1;
+				return 1;
 
 			case "get-sidebar-item":
 				// forward event to sidebar
@@ -99,10 +100,16 @@ const finder = {
 	async setCwd(path, skip) {
 		if (path) state.cwd.path = path;
 		if (!skip && path && path !== state.history[state.hIndex]) {
+			if (state.hIndex < state.history.length - 1) {
+				state.history.splice(state.hIndex + 1);
+			}
 			state.history.push(path);
 			state.hIndex = state.history.length - 1;
 		}
 
+		// make sure folder contents is loaded
+		await defiant.shell(`fs -r '${state.cwd.path}'`);
+		// get folder contents
 		let shell = await defiant.shell(`fs -l '${state.cwd.path}'`);
 		state.cwd.list = shell.result;
 	}

@@ -36,14 +36,15 @@ const contentView = {
 		}
 	},
 	async renderPath(path) {
-		if (path) state.cwd.path = path;
+		if (path) {
+			state.cwd.path = path;
+			// set current working directory
+			await finder.setCwd(path);
+		}
 		let name = window.path.dirname(state.cwd.path),
 			fileView = defiant.setting("fileView"),
 			el,
 			str;
-
-		// set current working directory
-		await finder.setCwd(path);
 
 		// update window title
 		window.title = name;
