@@ -87,13 +87,17 @@ const finder = {
 				state.hIndex = Math.min(Math.max(0, state.hIndex + index), state.history.length - 1);
 				contentView.renderPath(state.history[state.hIndex]);
 				return 1;
+			case "fs-view-render":
+				self.setCwd(event.path);
+				break;
 
+			// forward events...
 			case "get-sidebar-item":
-				// forward event to sidebar
+				// ...to sidebar
 				return sideBar.dispatch(event);
 			case "select-file-view":
 			case "set-icon-size":
-				// forward event to contentView
+				// ...to contentView
 				return contentView.dispatch(event);
 		}
 	},
@@ -108,10 +112,14 @@ const finder = {
 		}
 
 		// make sure folder contents is loaded
-		await defiant.shell(`fs -r '${state.cwd.path}'`);
+	//	await defiant.shell(`fs -r '${state.cwd.path}'`);
 		// get folder contents
 		let shell = await defiant.shell(`fs -l '${state.cwd.path}'`);
 		state.cwd.list = shell.result;
+
+		// update status-bar
+		str = `${state.cwd.list.length} items, ${disk.avail} available`;
+		window.statusBar.find(".content").text(str);
 	}
 };
 
