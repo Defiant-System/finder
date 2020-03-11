@@ -30,6 +30,8 @@ const contentView = {
 			case "select-file-view":
 				// update setting
 				defiant.setting("fileView", event.arg);
+				// toggle horizontal scroll for columns
+				self.el.toggleClass("view-columns", event.arg !== "columns");
 
 				self.renderPath();
 				break;
@@ -41,27 +43,12 @@ const contentView = {
 			// set current working directory
 			await finder.setCwd(path);
 		}
-		let name = window.path.dirname(state.cwd.path),
-			fileView = defiant.setting("fileView"),
-			el,
-			str;
-
-		// update window title
-		window.title = name;
-
-		// toolbar UI update
-		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.hIndex > 0);
-		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.hIndex < state.history.length - 1);
-
 		// update sidebar
 		sideBar.el.find("li.active").removeClass("active");
 		sideBar.el.find(`li[data-path="${state.cwd.path}"]`).addClass("active");
 
-		// update status-bar
-		str = `${state.cwd.list.length} items, ${disk.avail} available`;
-		window.statusBar.find(".content").text(str);
-
 		// show status-bar slider only for icons view
+		let fileView = defiant.setting("fileView");
 		this.iconResizer.css({display: fileView === "icons" ? "block" : "none"});
 
 		window.render({

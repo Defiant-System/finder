@@ -1,4 +1,5 @@
 
+ant_require("./undoStack.js");
 ant_require("./sideBar.js");
 ant_require("./contentView.js");
 
@@ -7,6 +8,7 @@ let states = [{
 		tab: window.tabs.getActive(),
 		hIndex: 0,
 		history: [],
+		undoStack: new UndoStack(null),
 		cwd: { path: defiant.setting("defaultPath"), list: [] },
 	}];
 let state = states[0]; // active state index = 0
@@ -30,7 +32,7 @@ const finder = {
 		//sideBar.el.find("li[data-path='/app']").trigger("click");
 		// states[0].tab.trigger("click");
 
-		//contentView.el.find(".file:nth(0)").trigger("click");
+		contentView.el.find(".file:nth(5)").trigger("click");
 
 		//setTimeout(() => sideBar.el.find("li[data-path='/']").trigger("click"), 500);
 	},
@@ -88,7 +90,9 @@ const finder = {
 				contentView.renderPath(state.history[state.hIndex]);
 				return 1;
 			case "fs-view-render":
-				self.setCwd(event.path);
+				if (!event.el.hasClass("preview")) {
+					self.setCwd(event.path);
+				}
 				break;
 
 			// forward events...
@@ -110,9 +114,13 @@ const finder = {
 			state.history.push(path);
 			state.hIndex = state.history.length - 1;
 		}
+		// update window title
+		window.title = window.path.dirname(state.cwd.path);
 
-		// make sure folder contents is loaded
-	//	await defiant.shell(`fs -r '${state.cwd.path}'`);
+		// toolbar UI update
+		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.hIndex > 0);
+		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.hIndex < state.history.length - 1);
+
 		// get folder contents
 		let shell = await defiant.shell(`fs -l '${state.cwd.path}'`);
 		state.cwd.list = shell.result;
