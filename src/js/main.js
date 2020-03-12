@@ -1,5 +1,5 @@
 
-ant_require("./undoStack.js");
+ant_require("./history.js");
 ant_require("./sideBar.js");
 ant_require("./contentView.js");
 
@@ -8,7 +8,6 @@ let states = [{
 		tab: window.tabs.getActive(),
 		hIndex: 0,
 		history: [],
-		undoStack: new UndoStack(null),
 		cwd: { path: defiant.setting("defaultPath"), list: [] },
 	}];
 let state = states[0]; // active state index = 0
