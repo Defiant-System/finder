@@ -13,10 +13,9 @@ class HistoryItem {
  * data -> Argument passed to undo/redo functions
  **/
 class History {
-	constructor(self) {
+	constructor() {
 		this.stack = [];
 		this.current = -1;
-		this.self = self;
 	}
 	push(perform, data) {
 		this.current++;
@@ -26,36 +25,32 @@ class History {
 		this.stack.splice(this.current);
 		this.stack.push(new HistoryItem(perform, data));
 	}
-	undo() {
+	goBack() {
 		var item;
 
 		if (this.current >= 0) {
 			item = this.stack[this.current];
-			item.perform.call(this.self, false, item.data);
+			item.perform.call({}, false, item.data);
 			this.current--;
 		} else {
 			throw new Error("Already at oldest change");
 		}
 	}
-	redo() {
+	goForward() {
 		var item;
 
 		item = this.stack[this.current + 1];
 		if (item) {
-			item.perform.call(this.self, true, item.data);
+			item.perform.call({}, true, item.data);
 			this.current++;
 		} else {
 			throw new Error("Already at newest change");
 		}
 	}
-	get canUndo() {
-		return this.current >= 0;
+	get canGoBack() {
+		return this.current > 0;
 	}
-	get canRedo() {
+	get canGoForward() {
 		return this.current < this.stack.length - 1;
-	}
-	invalidateAll() {
-		this.stack = [];
-		this.current = -1;
 	}
 }

@@ -4,11 +4,11 @@ ant_require("./sideBar.js");
 ant_require("./contentView.js");
 
 let disk;
+let path = defiant.setting("defaultPath");
 let states = [{
 		tab: window.tabs.getActive(),
-		hIndex: 0,
-		history: [],
-		cwd: { path: defiant.setting("defaultPath"), list: [] },
+		history: new History(),
+		cwd: { path, list: [] },
 	}];
 let state = states[0]; // active state index = 0
 
@@ -20,7 +20,8 @@ const finder = {
 			disk = disk.result;
 		}
 		// set current working directory
-		await this.setCwd(state.cwd.path);
+		//await this.setCwd(state.cwd.path);
+		this.pushPath(state.cwd.path);
 
 		// initiate sub-objects
 		sideBar.init();
@@ -31,7 +32,7 @@ const finder = {
 		//sideBar.el.find("li[data-path='/app']").trigger("click");
 		// states[0].tab.trigger("click");
 
-		contentView.el.find(".file:nth(5)").trigger("click");
+		//contentView.el.find(".file:nth(5)").trigger("click");
 
 		//setTimeout(() => sideBar.el.find("li[data-path='/']").trigger("click"), 500);
 	},
@@ -40,7 +41,6 @@ const finder = {
 			el,
 			clone,
 			tab,
-			index,
 			name,
 			path;
 		//console.log(event);
@@ -55,14 +55,13 @@ const finder = {
 				break;
 			case "new-tab":
 				path = defiant.setting("defaultPath");
-				name = window.path.dirname(path);
+				name = window.path.dirname();
 				tab = window.tabs.add(name);
 
 				states.push({
 					tab,
-					hIndex: 0,
-					history: [defiant.setting("defaultPath")],
-					cwd: { path: defiant.setting("defaultPath"), list: [] }
+					history: new History(path),
+					cwd: { path, list: [] }
 				});
 				state = states[tab.index()];
 				contentView.renderPath();
@@ -83,14 +82,12 @@ const finder = {
 				break;
 
 			case "history-go":
-				index = parseInt(event.arg, 10);
-				// contrain history index
-				state.hIndex = Math.min(Math.max(0, state.hIndex + index), state.history.length - 1);
-				contentView.renderPath(state.history[state.hIndex]);
+				state.history[event.arg === "-1" ? "goBack" : "goForward"]();
+				contentView.renderPath(state.cwd.path);
 				return 1;
 			case "fs-view-render":
 				if (!event.el.hasClass("preview")) {
-					self.setCwd(event.path);
+					self.pushPath(event.path);
 				}
 				break;
 
@@ -104,21 +101,23 @@ const finder = {
 				return contentView.dispatch(event);
 		}
 	},
-	async setCwd(path, skip) {
-		if (path) state.cwd.path = path;
-		if (!skip && path && path !== state.history[state.hIndex]) {
-			if (state.hIndex < state.history.length - 1) {
-				state.history.splice(state.hIndex + 1);
-			}
-			state.history.push(path);
-			state.hIndex = state.history.length - 1;
-		}
+	pushPath(path) {
+		let fn = (redo, data) => {
+				this.setCwd(redo ? data[1] : data[0]);
+			},
+			data = [state.cwd.path, path];
+		state.history.push(fn, data);
+		fn.call(this, true, data);
+	},
+	async setCwd(path) {
+		// update current working directory
+		state.cwd.path = path;
 		// update window title
 		window.title = window.path.dirname(state.cwd.path);
 
 		// toolbar UI update
-		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.hIndex > 0);
-		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.hIndex < state.history.length - 1);
+		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.history.canGoBack);
+		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.history.canGoForward);
 
 		// get folder contents
 		let shell = await defiant.shell(`fs -l '${state.cwd.path}'`);
