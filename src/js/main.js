@@ -32,12 +32,14 @@ const finder = {
 		//sideBar.el.find("li[data-path='/app']").trigger("click");
 		// states[0].tab.trigger("click");
 
-		//contentView.el.find(".file:nth(5)").trigger("click");
+		contentView.el.find(".file:nth(1)").trigger("click");
 
+		setTimeout(() => contentView.el.find(".column:nth(1) .file:nth(0)").trigger("click"), 500);
 		//setTimeout(() => sideBar.el.find("li[data-path='/']").trigger("click"), 500);
 	},
 	dispatch(event) {
 		let self = finder,
+			pEl,
 			el,
 			clone,
 			tab,
@@ -83,10 +85,19 @@ const finder = {
 
 			case "history-go":
 				state.history[event.arg === "-1" ? "goBack" : "goForward"]();
-				contentView.renderPath(state.cwd.path);
+
+				if (event.arg === "-1" && defiant.setting("fileView") === "columns") {
+					pEl = contentView.el.find(`.column[data-path="${state.cwd.path}"]`);
+					console.log(`.column[data-path="${state.cwd.path}"]`);
+					//pEl.find(".active").removeClass("active");
+					//pEl.nextAll(".column").remove();
+				} else {
+					contentView.renderPath(state.cwd.path);
+				}
 				return 1;
 			case "fs-view-render":
 				if (!event.el.hasClass("preview")) {
+					//console.log(event.path);
 					self.pushPath(event.path);
 				}
 				break;

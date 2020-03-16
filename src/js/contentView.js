@@ -39,7 +39,6 @@ const contentView = {
 	},
 	async renderPath(path) {
 		if (path) {
-			state.cwd.path = path;
 			// set current working directory
 			await finder.setCwd(path);
 		}
