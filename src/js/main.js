@@ -37,19 +37,13 @@ const finder = {
 			target: this.el.sideBar,
 		});
 
-		// trigger history state push
-		this.dispatch({
-			type: "fs-view-render",
-			path: defaultPath,
-			el: this.el.contentView,
-		});
-
 		// auto click toolbar
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
 		// temp
 		this.el.contentView.find(".column:nth-child(1) .file:nth-child(2)").trigger("click");
-		setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
+		setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
+		//setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -122,11 +116,10 @@ const finder = {
 				self.setViewState();
 				break;
 
-			// forward events...
+			// sideBar events
 			case "get-sidebar-item":
-				path = event.arg;
-
 				// render content view
+				path = event.arg;
 				window.render({
 					path,
 					template: "sys:fs-fileView",
@@ -140,15 +133,17 @@ const finder = {
 					el: self.el.contentView,
 				});
 				break;
+
+			// contentView events
 			case "select-file-view":
+			//	console.log(view.history.current);
 				// update setting
 				defiant.setting("fileView", event.arg);
 				// toggle horizontal scroll for columns
 				self.el.contentView.toggleClass("view-columns", event.arg !== "columns");
 
-				path = view.history.current.cwd;
-
 				// render content view
+				path = view.history.current ? view.history.current.cwd : defaultPath;
 				window.render({
 					path,
 					template: "sys:fs-fileView",
@@ -163,6 +158,8 @@ const finder = {
 				});
 				break;
 			case "set-icon-size":
+				defiant.setting("iconSize", event.value);
+				self.el.contentView.attr({style: `--icon-size: ${event.value}px`});
 				break;
 		}
 	},
@@ -175,9 +172,17 @@ const finder = {
 		this.el.btnPrev.toggleClass("tool-disabled_", view.history.canGoBack);
 		this.el.btnNext.toggleClass("tool-disabled_", view.history.canGoForward);
 
+		// auto click toolbar
+		let viewTool = window.find(`[data-arg='${state.view}']`);
+		viewTool.parent().find(".tool-active_").removeClass("tool-active_");
+		viewTool.addClass("tool-active_");
+
 		// update status-bar
 		let str = `${state.list} items, ${disk.avail} available`;
 		window.statusBar.find(".content").text(str);
+
+		// show status-bar slider only for icons view
+		this.el.iconResizer.css({display: state.view === "icons" ? "block" : "none"});
 
 		if (render) {
 			if (defiant.setting("fileView") !== state.view) {
@@ -209,7 +214,13 @@ const finder = {
 						left = column.prop("offsetLeft") + column.prop("offsetWidth") - this.el.contentView.prop("offsetWidth");
 						this.el.contentView.prop({"scrollLeft": left});
 						
-						column.prev(".column").find(`.name:contains("${name}")`).parent().addClass("active");
+						column = column.prev(".column");
+						if (column.length) {
+							column.find(`.name:contains("${name}")`).parent().addClass("active");
+						} else {
+							this.el.sideBar.find(".active").removeClass("active");
+							this.el.sideBar.find(`li[data-path="${path}"]`).addClass("active");
+						}
 					}
 				});
 			} else {
