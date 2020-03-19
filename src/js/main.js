@@ -42,7 +42,7 @@ const finder = {
 
 		// temp
 		this.el.contentView.find(".column:nth-child(1) .file:nth-child(2)").trigger("click");
-		setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
+		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
 	dispatch(event) {
@@ -107,6 +107,7 @@ const finder = {
 					list: event.el.find(".file").length,
 					view: defiant.setting("fileView"),
 				};
+				if (event.kind) state.kind = event.kind;
 				if (state.view === "columns") {
 					state.columns = self.el.contentView.find(".column").map(e => e.getAttribute("data-path"));
 				}
@@ -142,8 +143,16 @@ const finder = {
 				// toggle horizontal scroll for columns
 				self.el.contentView.toggleClass("view-columns", event.arg !== "columns");
 
+				// set state and path
+				state = view.history.current;
+				path = state ? state.cwd : defaultPath;
+				
+				if (state && state.kind) {
+					state = view.history.stack[view.history.index-1];
+					path = state.cwd;
+				}
+
 				// render content view
-				path = view.history.current ? view.history.current.cwd : defaultPath;
 				window.render({
 					path,
 					template: "sys:fs-fileView",
