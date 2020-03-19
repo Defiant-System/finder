@@ -1,41 +1,55 @@
 
 ant_require("./history.js");
-ant_require("./sideBar.js");
-ant_require("./contentView.js");
 
 let disk;
-let path = defiant.setting("defaultPath");
-let states = [{
+let defaultPath = defiant.setting("defaultPath");
+let view = {
 		tab: window.tabs.getActive(),
-		history: new History(),
-		cwd: { path, list: [] },
-	}];
-let state = states[0]; // active state index = 0
+		history: new History
+	};
+let views = [view];
 
 const finder = {
+	el: {},
 	async init() {
+		// fast references
+		this.el.sideBar = window.el.find("sidebar");
+		this.el.contentView = window.el.find("content > div");
+		this.el.iconResizer = window.find(".icon-resizer");
+		this.el.btnPrev = window.find("[data-click='history-go'][data-arg='-1']");
+		this.el.btnNext = window.find("[data-click='history-go'][data-arg='1']");
+
+		// initial value for icon resizer
+		let iconSize = defiant.setting("iconSize");
+		this.el.contentView.attr({style: `--icon-size: ${iconSize}px`});
+		this.el.iconResizer.val(iconSize);
+
+		// disk info
 		if (!disk) {
-			// disk info
 			disk = await defiant.shell("fs -ih");
 			disk = disk.result;
 		}
-		// set current working directory
-		//await this.setCwd(state.cwd.path);
-		this.pushPath(state.cwd.path);
 
-		// initiate sub-objects
-		sideBar.init();
-		contentView.init();
+		// render sidebar
+		window.render({
+			template: "sys:fs-sideBar",
+			match: `//Settings/Finder/*[@id="sidebar"]`,
+			target: this.el.sideBar,
+		});
+
+		// trigger history state push
+		this.dispatch({
+			type: "fs-view-render",
+			path: defaultPath,
+			el: this.el.contentView,
+		});
+
+		// auto click toolbar
+		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
 		// temp
-		//this.dispatch({type: "new-tab"});
-		//sideBar.el.find("li[data-path='/app']").trigger("click");
-		// states[0].tab.trigger("click");
-
-		contentView.el.find(".file:nth(1)").trigger("click");
-
-		setTimeout(() => contentView.el.find(".column:nth(1) .file:nth(0)").trigger("click"), 500);
-		//setTimeout(() => sideBar.el.find("li[data-path='/']").trigger("click"), 500);
+		this.el.contentView.find(".column:nth-child(1) .file:nth-child(2)").trigger("click");
+		setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -44,6 +58,7 @@ const finder = {
 			clone,
 			tab,
 			name,
+			state,
 			path;
 		//console.log(event);
 		switch (event.type) {
@@ -52,28 +67,29 @@ const finder = {
 
 			// TAB RELATED EVENTS
 			case "active-tab":
-				state = states[event.el.index()];
-				contentView.renderPath();
+				view = views[event.el.index()];
 				break;
 			case "new-tab":
+				/*
 				path = defiant.setting("defaultPath");
 				name = window.path.dirname();
 				tab = window.tabs.add(name);
 
-				states.push({
+				views.push({
 					tab,
 					history: new History(path),
 					cwd: { path, list: [] }
 				});
-				state = states[tab.index()];
+				view = views[tab.index()];
 				contentView.renderPath();
+				*/
 				break;
 			case "close-tab":
-				// remove state from states array
-				states.splice(event.el.index(), 1);
+				// remove view from views array
+				views.splice(event.el.index(), 1);
 				break;
 			case "close-active-tab":
-				window.tabs.close(state.tab);
+				window.tabs.close(view.tab);
 				break;
 
 			// CLONE WINDOW RELATED EVENTS
@@ -84,59 +100,126 @@ const finder = {
 				break;
 
 			case "history-go":
-				state.history[event.arg === "-1" ? "goBack" : "goForward"]();
+				if (event.arg === "-1") view.history.goBack();
+				else view.history.goForward();
 
-				if (event.arg === "-1" && defiant.setting("fileView") === "columns") {
-					pEl = contentView.el.find(`.column[data-path="${state.cwd.path}"]`);
-					console.log(`.column[data-path="${state.cwd.path}"]`);
-					//pEl.find(".active").removeClass("active");
-					//pEl.nextAll(".column").remove();
-				} else {
-					contentView.renderPath(state.cwd.path);
-				}
+				// update view state
+				self.setViewState(true);
 				return 1;
 			case "fs-view-render":
-				if (!event.el.hasClass("preview")) {
-					//console.log(event.path);
-					self.pushPath(event.path);
+				// push to history
+				state = {
+					cwd: event.path,
+					list: event.el.find(".file").length,
+					view: defiant.setting("fileView"),
+				};
+				if (state.view === "columns") {
+					state.columns = self.el.contentView.find(".column").map(e => e.getAttribute("data-path"));
 				}
+				view.history.push(state);
+
+				// update view state
+				self.setViewState();
 				break;
 
 			// forward events...
 			case "get-sidebar-item":
-				// ...to sidebar
-				return sideBar.dispatch(event);
+				path = event.arg;
+
+				// render content view
+				window.render({
+					path,
+					template: "sys:fs-fileView",
+					target: self.el.contentView
+				});
+
+				// trigger history state push
+				self.dispatch({
+					path,
+					type: "fs-view-render",
+					el: self.el.contentView,
+				});
+				break;
 			case "select-file-view":
+				// update setting
+				defiant.setting("fileView", event.arg);
+				// toggle horizontal scroll for columns
+				self.el.contentView.toggleClass("view-columns", event.arg !== "columns");
+
+				path = view.history.current.cwd;
+
+				// render content view
+				window.render({
+					path,
+					template: "sys:fs-fileView",
+					target: self.el.contentView
+				});
+
+				// trigger history state push
+				self.dispatch({
+					path,
+					type: "fs-view-render",
+					el: self.el.contentView,
+				});
+				break;
 			case "set-icon-size":
-				// ...to contentView
-				return contentView.dispatch(event);
+				break;
 		}
 	},
-	pushPath(path) {
-		let fn = (redo, data) => {
-				this.setCwd(redo ? data[1] : data[0]);
-			},
-			data = [state.cwd.path, path];
-		state.history.push(fn, data);
-		fn.call(this, true, data);
-	},
-	async setCwd(path) {
-		// update current working directory
-		state.cwd.path = path;
+	setViewState(render) {
+		let state = view.history.current;
 		// update window title
-		window.title = window.path.dirname(state.cwd.path);
+		window.title = window.path.dirname(state.cwd);
 
 		// toolbar UI update
-		window.find("[data-click='history-go'][data-arg='-1']").toggleClass("tool-disabled_", state.history.canGoBack);
-		window.find("[data-click='history-go'][data-arg='1']").toggleClass("tool-disabled_", state.history.canGoForward);
-
-		// get folder contents
-		let shell = await defiant.shell(`fs -l '${state.cwd.path}'`);
-		state.cwd.list = shell.result;
+		this.el.btnPrev.toggleClass("tool-disabled_", view.history.canGoBack);
+		this.el.btnNext.toggleClass("tool-disabled_", view.history.canGoForward);
 
 		// update status-bar
-		str = `${state.cwd.list.length} items, ${disk.avail} available`;
+		let str = `${state.list} items, ${disk.avail} available`;
 		window.statusBar.find(".content").text(str);
+
+		if (render) {
+			if (defiant.setting("fileView") !== state.view) {
+				this.el.contentView.html("");
+			}
+			// update setting
+			defiant.setting("fileView", state.view);
+			// toggle horizontal scroll for columns
+			this.el.contentView.toggleClass("view-columns", state.view !== "columns");
+
+			if (state.view === "columns") {
+				this.el.contentView.find(`.column`).map(el => {
+					if (!~state.columns.indexOf(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
+				});
+				// un-active active item
+				this.el.contentView.find(".column:last").find(".file.active").removeClass("active");
+				// add missing columns
+				state.columns.map(path => {
+					let column = this.el.contentView.find(`.column[data-path="${path}"]`),
+						name = path.slice(path.lastIndexOf("/") + 1),
+						left;
+					if (!column.length) {
+						column = window.render({
+							path,
+							template: "sys:fs-fileView",
+							append: this.el.contentView
+						});
+						// calculate left
+						left = column.prop("offsetLeft") + column.prop("offsetWidth") - this.el.contentView.prop("offsetWidth");
+						this.el.contentView.prop({"scrollLeft": left});
+						
+						column.prev(".column").find(`.name:contains("${name}")`).parent().addClass("active");
+					}
+				});
+			} else {
+				window.render({
+					path: state.cwd,
+					template: "sys:fs-fileView",
+					target: this.el.contentView
+				});
+			}
+		}
 	}
 };
 

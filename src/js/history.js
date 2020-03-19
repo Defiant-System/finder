@@ -1,56 +1,32 @@
 
-class HistoryItem {
-	constructor(perform, data) {
-		this.perform = perform;
-		this.data = data;
-	}
-}
-
-/**
- * UndoStack#push (action, data);
- * perform(true, data)  -> Function which performs redo based on previous state
- * perform(false, data) -> Function which performs undo based on current state
- * data -> Argument passed to undo/redo functions
- **/
 class History {
 	constructor() {
 		this.stack = [];
-		this.current = -1;
+		this.index = -1;
 	}
-	push(perform, data) {
-		this.current++;
+	push(data) {
+		this.index++;
 
-		// We need to invalidate all undo items after this new one
-		// or people are going to be very confused.
-		this.stack.splice(this.current);
-		this.stack.push(new HistoryItem(perform, data));
+		this.stack.splice(this.index);
+		this.stack.push(data);
 	}
 	goBack() {
-		var item;
-
-		if (this.current >= 0) {
-			item = this.stack[this.current];
-			item.perform.call({}, false, item.data);
-			this.current--;
-		} else {
-			throw new Error("Already at oldest change");
+		if (this.index >= 0) {
+			this.index--;
 		}
 	}
 	goForward() {
-		var item;
-
-		item = this.stack[this.current + 1];
-		if (item) {
-			item.perform.call({}, true, item.data);
-			this.current++;
-		} else {
-			throw new Error("Already at newest change");
+		if (this.index < this.stack.length - 1) {
+			this.index++;
 		}
 	}
+	get current() {
+		return this.stack[this.index];
+	}
 	get canGoBack() {
-		return this.current > 0;
+		return this.index > 0;
 	}
 	get canGoForward() {
-		return this.current < this.stack.length - 1;
+		return this.index < this.stack.length - 1;
 	}
 }
