@@ -41,7 +41,7 @@ const finder = {
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
 		// temp
-		this.el.contentView.find(".column:nth-child(1) .file:nth-child(2)").trigger("click");
+		this.el.contentView.find(".column:nth-child(1) .file:nth-child(5)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
@@ -107,7 +107,10 @@ const finder = {
 					list: event.el.find(".file").length,
 					view: defiant.setting("fileView"),
 				};
-				if (event.kind) state.kind = event.kind;
+				if (event.kind) {
+					state.kind = event.kind;
+					console.log(1);
+				}
 				if (state.view === "columns") {
 					state.columns = self.el.contentView.find(".column").map(e => e.getAttribute("data-path"));
 				}
@@ -126,7 +129,6 @@ const finder = {
 					template: "sys:fs-fileView",
 					target: self.el.contentView
 				});
-
 				// trigger history state push
 				self.dispatch({
 					path,
@@ -146,19 +148,17 @@ const finder = {
 				// set state and path
 				state = view.history.current;
 				path = state ? state.cwd : defaultPath;
-				
+				// handles file selected
 				if (state && state.kind) {
 					state = view.history.stack[view.history.index-1];
 					path = state.cwd;
 				}
-
 				// render content view
 				window.render({
 					path,
 					template: "sys:fs-fileView",
 					target: self.el.contentView
 				});
-
 				// trigger history state push
 				self.dispatch({
 					path,
@@ -188,6 +188,12 @@ const finder = {
 
 		// update status-bar
 		let str = `${state.list} items, ${disk.avail} available`;
+		if (state.kind) {
+			let column = this.el.contentView.find(".column:nth-last-child(2)"),
+				total = column.find(".file").length,
+				selected = column.find(".file.active").length;
+			str = `${selected} of ${total} selected, ${disk.avail} available`;
+		}
 		window.statusBar.find(".content").text(str);
 
 		// show status-bar slider only for icons view
