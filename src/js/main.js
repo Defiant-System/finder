@@ -1,11 +1,9 @@
 
-ant_require("./history.js");
-
 let disk;
 let defaultPath = defiant.setting("defaultPath");
 let view = {
 		tab: window.tabs.getActive(),
-		history: new History
+		history: new window.History
 	};
 let views = [view];
 
@@ -40,12 +38,11 @@ const finder = {
 		// auto click toolbar
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
-		//window.save();
-
 		// temp
-		//this.el.contentView.find(".column:nth-child(1) .file:nth-child(5)").trigger("click");
+		window.save();
+		//this.el.contentView.find(".column_:nth-child(1) .file:nth-child(1)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
-		//setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
+		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -74,7 +71,7 @@ const finder = {
 
 				views.push({
 					tab,
-					history: new History,
+					history: new window.History,
 				});
 				view = views[tab.index()];
 				
@@ -117,7 +114,7 @@ const finder = {
 					state.kind = event.kind;
 				}
 				if (state.view === "columns") {
-					state.columns = self.el.contentView.find(".column").map(e => e.getAttribute("data-path"));
+					state.columns = self.el.contentView.find(".column_").map(e => e.getAttribute("data-path"));
 				}
 				view.history.push(state);
 
@@ -198,7 +195,7 @@ const finder = {
 		// update status-bar
 		let str = `${state.list} items, ${disk.avail} available`;
 		if (state.kind) {
-			let column = this.el.contentView.find(".column:nth-last-child(2)"),
+			let column = this.el.contentView.find(".column_:nth-last-child(2)"),
 				total = column.find(".file").length,
 				selected = column.find(".file.active").length;
 			str = `${selected} of ${total} selected, ${disk.avail} available`;
@@ -218,14 +215,14 @@ const finder = {
 			this.el.contentView.toggleClass("view-columns", state.view !== "columns");
 
 			if (state.view === "columns") {
-				this.el.contentView.find(`.column`).map(el => {
+				this.el.contentView.find(`.column_`).map(el => {
 					if (!~state.columns.indexOf(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
 				});
 				// un-active active item
-				this.el.contentView.find(".column:last").find(".file.active").removeClass("active");
+				this.el.contentView.find(".column_:last").find(".file.active").removeClass("active");
 				// add missing columns
 				state.columns.map(path => {
-					let column = this.el.contentView.find(`.column[data-path="${path}"]`),
+					let column = this.el.contentView.find(`.column_[data-path="${path}"]`),
 						name = path.slice(path.lastIndexOf("/") + 1),
 						left;
 					if (!column.length) {
@@ -238,7 +235,7 @@ const finder = {
 						left = column.prop("offsetLeft") + column.prop("offsetWidth") - this.el.contentView.prop("offsetWidth");
 						this.el.contentView.prop({"scrollLeft": left});
 						
-						column = column.prev(".column");
+						column = column.prev(".column_");
 						if (column.length) {
 							column.find(`.name:contains("${name}")`).parent().addClass("active");
 						} else {
