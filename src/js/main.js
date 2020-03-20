@@ -40,8 +40,10 @@ const finder = {
 		// auto click toolbar
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
+		//window.save();
+
 		// temp
-		this.el.contentView.find(".column:nth-child(1) .file:nth-child(5)").trigger("click");
+		//this.el.contentView.find(".column:nth-child(1) .file:nth-child(5)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
 	},
@@ -62,21 +64,25 @@ const finder = {
 			// TAB RELATED EVENTS
 			case "active-tab":
 				view = views[event.el.index()];
+				// update view state
+				self.setViewState(true);
 				break;
 			case "new-tab":
-				/*
 				path = defiant.setting("defaultPath");
-				name = window.path.dirname();
+				name = window.path.dirname(path);
 				tab = window.tabs.add(name);
 
 				views.push({
 					tab,
-					history: new History(path),
-					cwd: { path, list: [] }
+					history: new History,
 				});
 				view = views[tab.index()];
-				contentView.renderPath();
-				*/
+				
+				// trigger history state push
+				self.dispatch({
+					type: "render-path",
+					arg: path,
+				});
 				break;
 			case "close-tab":
 				// remove view from views array
@@ -109,7 +115,6 @@ const finder = {
 				};
 				if (event.kind) {
 					state.kind = event.kind;
-					console.log(1);
 				}
 				if (state.view === "columns") {
 					state.columns = self.el.contentView.find(".column").map(e => e.getAttribute("data-path"));
@@ -121,9 +126,13 @@ const finder = {
 				break;
 
 			// sideBar events
+			case "render-path":
 			case "get-sidebar-item":
-				// render content view
+				// update sidebar active
 				path = event.arg;
+				self.el.sideBar.find(".active").removeClass("active");
+				self.el.sideBar.find(`li[data-path="${path}"]`).addClass("active");
+				// render content view
 				window.render({
 					path,
 					template: "sys:fs-fileView",
