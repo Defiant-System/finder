@@ -39,10 +39,10 @@ const finder = {
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
 		// temp
-		window.save();
-		//this.el.contentView.find(".column_:nth-child(1) .file:nth-child(1)").trigger("click");
+		//window.save();
+		//this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
-		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .file:nth-child(4)").trigger("click"), 30);
+		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .ant-file_:nth-child(4)").trigger("click"), 30);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -107,7 +107,7 @@ const finder = {
 				// push to history
 				state = {
 					cwd: event.path,
-					list: event.el.find(".file").length,
+					list: event.el.find(".ant-file_").length,
 					view: defiant.setting("fileView"),
 				};
 				if (event.kind) {
@@ -127,8 +127,8 @@ const finder = {
 			case "get-sidebar-item":
 				// update sidebar active
 				path = event.arg;
-				self.el.sideBar.find(".active").removeClass("active");
-				self.el.sideBar.find(`li[data-path="${path}"]`).addClass("active");
+				//self.el.sideBar.find(".sidebar-active_").removeClass("sidebar-active_");
+				//self.el.sideBar.find(`li[data-path="${path}"]`).addClass("sidebar-active_");
 				// render content view
 				window.render({
 					path,
@@ -196,8 +196,8 @@ const finder = {
 		let str = `${state.list} items, ${disk.avail} available`;
 		if (state.kind) {
 			let column = this.el.contentView.find(".column_:nth-last-child(2)"),
-				total = column.find(".file").length,
-				selected = column.find(".file.active").length;
+				total = column.find(".ant-file_").length,
+				selected = column.find(".ant-file_.file-active").length;
 			str = `${selected} of ${total} selected, ${disk.avail} available`;
 		}
 		window.statusBar.find(".content").text(str);
@@ -219,7 +219,7 @@ const finder = {
 					if (!~state.columns.indexOf(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
 				});
 				// un-active active item
-				this.el.contentView.find(".column_:last").find(".file.active").removeClass("active");
+				this.el.contentView.find(".column_:last").find(".ant-file_.file-active_").removeClass("file-active_");
 				// add missing columns
 				state.columns.map(path => {
 					let column = this.el.contentView.find(`.column_[data-path="${path}"]`),
@@ -237,10 +237,10 @@ const finder = {
 						
 						column = column.prev(".column_");
 						if (column.length) {
-							column.find(`.name:contains("${name}")`).parent().addClass("active");
+							column.find(`.name:contains("${name}")`).parent().addClass("file-active_");
 						} else {
-							this.el.sideBar.find(".active").removeClass("active");
-							this.el.sideBar.find(`li[data-path="${path}"]`).addClass("active");
+							this.el.sideBar.find(".sidebar-active_").removeClass("sidebar-active_");
+							this.el.sideBar.find(`li[data-path="${path}"]`).addClass("sidebar-active_");
 						}
 					}
 				});
