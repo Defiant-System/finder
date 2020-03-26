@@ -60,6 +60,7 @@ const finder = {
 
 			// TAB RELATED EVENTS
 			case "active-tab":
+				if (view === views[event.el.index()]) return;
 				view = views[event.el.index()];
 				// update view state
 				self.setViewState(true);
@@ -171,7 +172,7 @@ const finder = {
 					type: "fs-view-render",
 					el: self.el.contentView,
 				});
-				break;
+				return true;
 			case "set-icon-size":
 				defiant.setting("iconSize", event.value);
 				self.el.contentView.attr({style: `--icon-size: ${event.value}px`});
