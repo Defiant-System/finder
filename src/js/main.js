@@ -103,7 +103,7 @@ const finder = {
 
 				// update view state
 				self.setViewState(true);
-				return 1;
+				break;
 			case "fs-view-render":
 				// push to history
 				state = {
@@ -150,7 +150,8 @@ const finder = {
 				// update setting
 				defiant.setting("fileView", event.arg);
 				// toggle horizontal scroll for columns
-				self.el.contentView.toggleClass("view-columns", event.arg !== "columns");
+				self.el.contentView.prop("className", `fs-${event.arg}`);
+				self.el.contentView.toggleClass("view-columns_", event.arg !== "columns");
 
 				// set state and path
 				state = view.history.current;
