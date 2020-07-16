@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
-	<svg id="icon-arrow-left" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M46.236,491.33L833.312,53.934c18.372-10.076,33.189-1.185,33.189,19.558v872.422c0,20.744-14.817,29.634-33.189,19.558 L46.236,528.076C27.863,518,27.863,501.406,46.236,491.33L46.236,491.33z"/>
+	<svg id="icon-arrow-left" viewBox="0 0 240 240">
+		<polyline fill="none" stroke="#333" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="165,28.75 74,119.75 165.75,211"/>
 	</svg>
 
-	<svg id="icon-arrow-right" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M973.724,528.076L186.648,965.472c-18.373,10.076-33.19,1.186-33.19-19.558V73.492c0-20.744,14.817-29.634,33.19-19.558 L973.724,491.33C992.097,501.406,992.097,518,973.724,528.076z"/>
+	<svg id="icon-arrow-right" viewBox="0 0 240 240">
+		<polyline fill="none" stroke="#333" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="74,211.25 165,120.25 74.25,28"/>
 	</svg>
 
 	<svg id="icon-view-icons" viewBox="0 0 1024 1024">

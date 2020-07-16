@@ -39,6 +39,7 @@ const finder = {
 		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
 
 		// temp
+		//this.dispatch({ type: "new-tab" });
 		//window.save();
 		//this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
