@@ -1,6 +1,7 @@
 
 let disk;
-let defaultPath = defiant.setting("defaultPath");
+let defaultPath = window.settings.get("defaultPath");
+console.log(defaultPath);
 let view = {
 		tab: window.tabs.getActive(),
 		history: new window.History
@@ -18,7 +19,7 @@ const finder = {
 		this.el.btnNext = window.find("[data-click='history-go'][data-arg='1']");
 
 		// initial value for icon resizer
-		let iconSize = defiant.setting("iconSize");
+		let iconSize = window.settings.get("iconSize");
 		this.el.contentView.attr({style: `--icon-size: ${iconSize}px`});
 		this.el.iconResizer.val(iconSize);
 
@@ -31,12 +32,12 @@ const finder = {
 		// render sidebar
 		window.render({
 			template: "sys:fs-sideBar",
-			match: `//Settings/Finder/*[@id="sidebar"]`,
+			match: `~//Settings/Finder/*[@id="sidebar"]`,
 			target: this.el.sideBar,
 		});
 
 		// auto click toolbar
-		window.find(`[data-arg='${defiant.setting("fileView")}']`).trigger("click");
+		window.find(`[data-arg='${window.settings.get("fileView")}']`).trigger("click");
 
 		// temp
 		//this.dispatch({ type: "new-tab" });
@@ -58,6 +59,9 @@ const finder = {
 		switch (event.type) {
 			case "open.file":
 				break;
+			case "window.open":
+				//defiant.shell("win -a");
+				break;
 
 			// TAB RELATED EVENTS
 			case "active-tab":
@@ -67,7 +71,7 @@ const finder = {
 				self.setViewState(true);
 				break;
 			case "new-tab":
-				path = defiant.setting("defaultPath");
+				path = window.settings.get("defaultPath");
 				name = window.path.dirname(path);
 				tab = window.tabs.add(name);
 
@@ -110,7 +114,7 @@ const finder = {
 				state = {
 					cwd: event.path,
 					list: event.el.find(".ant-file_").length,
-					view: defiant.setting("fileView"),
+					view: window.settings.get("fileView"),
 				};
 				if (event.kind) {
 					state.kind = event.kind;
@@ -149,7 +153,7 @@ const finder = {
 			case "select-file-view":
 			//	console.log(view.history.current);
 				// update setting
-				defiant.setting("fileView", event.arg);
+				window.settings.set("fileView", event.arg);
 				
 				// set state and path
 				state = view.history.current;
@@ -173,7 +177,7 @@ const finder = {
 				});
 				return true;
 			case "set-icon-size":
-				defiant.setting("iconSize", event.value);
+				window.settings.set("iconSize", event.value);
 				self.el.contentView.attr({style: `--icon-size: ${event.value}px`});
 				break;
 		}
@@ -206,11 +210,11 @@ const finder = {
 		this.el.iconResizer.css({display: state.view === "icons" ? "block" : "none"});
 
 		if (render) {
-			if (defiant.setting("fileView") !== state.view) {
+			if (window.settings.get("fileView") !== state.view) {
 				this.el.contentView.html("");
 			}
 			// update setting
-			defiant.setting("fileView", state.view);
+			window.settings.set("fileView", state.view);
 			// toggle horizontal scroll for columns
 			this.el.contentView.toggleClass("view-columns", state.view !== "columns");
 

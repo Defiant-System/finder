@@ -1,6 +1,6 @@
 <MenuBar>
 	<Menu name="Finder">
-		<Menu name="About Finder"/>
+		<Menu name="About Finder" shell="win -a"/>
 		<Menu type="divider"/>
 		<Menu name="Preferences"/>
 		<Menu type="divider"/>
