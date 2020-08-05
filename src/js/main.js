@@ -1,7 +1,6 @@
 
 let disk;
 let defaultPath = window.settings.get("defaultPath");
-console.log(defaultPath);
 let view = {
 		tab: window.tabs.getActive(),
 		history: new window.History
@@ -40,6 +39,7 @@ const finder = {
 		window.find(`[data-arg='${window.settings.get("fileView")}']`).trigger("click");
 
 		// temp
+		//setTimeout(() => window.clone(), 300);
 		//this.dispatch({ type: "new-tab" });
 		//window.save();
 		//this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click");
