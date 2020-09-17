@@ -31,7 +31,7 @@ const finder = {
 		// render sidebar
 		window.render({
 			template: "sys:fs-sideBar",
-			match: `~//Settings/Finder/*[@id="sidebar"]`,
+			match: `sys://Settings/Finder/*[@id="sidebar"]`,
 			target: this.el.sideBar,
 		});
 
