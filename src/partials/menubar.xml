@@ -51,10 +51,24 @@
 	</Menu>
 </MenuBar>
 
-<Menu for="folder-content">
+<Menu for="fs-folder-content">
 	<Menu name="New Folder" click="create-new-folder"/>
 	<Menu type="divider"/>
 	<Menu name="Get Info"/>
 	<Menu name="View&#8230;" invoke="view-options"/>
 	<Menu name="Sort By&#8230;" invoke="view-sort-by"/>
+</Menu>
+
+<Menu for="fs-1item">
+	<Menu name="Open" sys-click="fs-open"/>
+	<Menu type="divider"/>
+	<Menu name="Get Info" sys-click="fs-info"/>
+	<Menu name="Move to Bin" sys-click="fs-delete"/>
+	<Menu type="divider"/>
+	<Menu name="Rename" sys-click="fs-rename"/>
+	<Menu name="Duplicate" sys-click="fs-duplicate"/>
+	<Menu name="Copy" sys-click="fs-copy"/>
+	<Menu name="Cut" sys-click="fs-cut"/>
+	<Menu type="divider"/>
+	<Menu name="Download" sys-click="fs-download"/>
 </Menu>
