@@ -42,7 +42,7 @@ const finder = {
 		//setTimeout(() => window.clone(), 300);
 		//this.dispatch({ type: "new-tab" });
 		//window.save();
-		//this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click");
+		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(3)").trigger("click");
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .ant-file_:nth-child(4)").trigger("click"), 30);
 	},
@@ -58,6 +58,11 @@ const finder = {
 		//console.log(event);
 		switch (event.type) {
 			case "open.file":
+				// render path
+				self.dispatch({
+					type: "render-path",
+					arg: event.path,
+				});
 				break;
 			case "window.open":
 				//defiant.shell("win -a");
