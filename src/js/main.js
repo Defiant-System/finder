@@ -42,7 +42,13 @@ const finder = {
 		//setTimeout(() => window.clone(), 300);
 		//this.dispatch({ type: "new-tab" });
 		//window.save();
-		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(3)").trigger("click");
+		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
+
+		// defiant_.eventHandlers_.doEvent_({
+		// 	type: "fs-rename",
+		// 	el: this.el.contentView.find(".ant-file_:nth-child(3)"),
+		// });
+
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .ant-file_:nth-child(4)").trigger("click"), 30);
 	},
@@ -206,7 +212,7 @@ const finder = {
 		if (state.kind) {
 			let column = this.el.contentView.find(".column_:nth-last-child(2)"),
 				total = column.find(".ant-file_").length,
-				selected = column.find(".ant-file_.file-active").length;
+				selected = state.kind === "_dir" ? column.find(".ant-file_.file-active").length : 1;
 			str = `${selected} of ${total} selected, ${disk.avail} available`;
 		}
 		window.statusBar.find(".content").text(str);
