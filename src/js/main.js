@@ -235,16 +235,20 @@ const finder = {
 				});
 				// un-active active item
 				this.el.contentView.find(".column_:last").find(".ant-file_.file-active_").removeClass("file-active_");
+				if (!this.el.contentView.find(".fs-root_").length) {
+					this.el.contentView.append(`<div class="fs-root_"></div>`);
+				}
 				// add missing columns
 				state.columns.map(path => {
 					let column = this.el.contentView.find(`.column_[data-path="${path}"]`),
 						name = path.slice(path.lastIndexOf("/") + 1),
+						append = this.el.contentView.find(".fs-root_"),
 						left;
 					if (!column.length) {
 						column = window.render({
 							path,
+							append: append.length ? append : this.el.contentView,
 							template: "sys:fs-fileView",
-							append: this.el.contentView
 						});
 						// calculate left
 						left = column.prop("offsetLeft") + column.prop("offsetWidth") - this.el.contentView.prop("offsetWidth");

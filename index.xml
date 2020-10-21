@@ -4,7 +4,7 @@
 		<meta name="title" value="Finder" version="1.6"/>
 		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0-or-later"/>
-		<meta name="width" value="820" min="500"/>
+		<meta name="width" value="765" min="500"/>
 		<meta name="height" value="380" min="300"/>
 		<meta name="top" value="320"/>
 		<meta name="left" value="160"/>
