@@ -39,10 +39,7 @@ const finder = {
 		window.find(`[data-arg='${window.settings.get("fileView")}']`).trigger("click");
 
 		// temp
-		//setTimeout(() => window.clone(), 300);
-		//this.dispatch({ type: "new-tab" });
-		//window.save();
-		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
+		this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
 
 		// defiant_.eventHandlers_.doEvent_({
 		// 	type: "fs-rename",
