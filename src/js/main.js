@@ -39,7 +39,7 @@ const finder = {
 		window.find(`[data-arg='${window.settings.get("fileView")}']`).trigger("click");
 
 		// temp
-		this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
+		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
 
 		// defiant_.eventHandlers_.doEvent_({
 		// 	type: "fs-rename",
@@ -141,8 +141,8 @@ const finder = {
 			case "get-sidebar-item":
 				// update sidebar active
 				path = event.arg;
-				//self.el.sideBar.find(".sidebar-active_").removeClass("sidebar-active_");
-				//self.el.sideBar.find(`li[data-path="${path}"]`).addClass("sidebar-active_");
+				self.el.sideBar.find(".sidebar-active_").removeClass("sidebar-active_");
+				self.el.sideBar.find(`li[data-path="${path}"]`).addClass("sidebar-active_");
 				// render content view
 				window.render({
 					path,
