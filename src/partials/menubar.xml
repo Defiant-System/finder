@@ -2,6 +2,7 @@
 	<Menu name="Finder">
 		<Menu name="About Finder" shell="win -a"/>
 		<Menu type="divider"/>
+		<Menu name="Add Cloud Storage" shell="win -o preferences cloudStorage"/>
 		<Menu name="Emptry Trash"/>
 		<Menu type="divider"/>
 		<Menu name="Quit Finder" shell="win -c"/>
