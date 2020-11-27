@@ -39,13 +39,6 @@ const finder = {
 		window.find(`[data-arg='${window.settings.get("fileView")}']`).trigger("click");
 
 		// temp
-		// this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(4)").trigger("click");
-
-		// defiant_.eventHandlers_.doEvent_({
-		// 	type: "fs-rename",
-		// 	el: this.el.contentView.find(".ant-file_:nth-child(3)"),
-		// });
-
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .ant-file_:nth-child(4)").trigger("click"), 30);
 	},
@@ -71,7 +64,7 @@ const finder = {
 				//defiant.shell("win -a");
 				break;
 
-			// TAB RELATED EVENTS
+			// tab related events
 			case "active-tab":
 				if (view === views[event.el.index()]) return;
 				view = views[event.el.index()];
