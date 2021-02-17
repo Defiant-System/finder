@@ -1,6 +1,6 @@
 
 let disk;
-let defaultPath = window.settings.get("finder-default-path");
+let defaultPath = window.settings.getItem("finder-default-path");
 let view = {
 		tab: window.tabs.getActive(),
 		history: new window.History
@@ -18,7 +18,7 @@ const finder = {
 		this.el.btnNext = window.find("[data-click='history-go'][data-arg='1']");
 
 		// initial value for icon resizer
-		let iconSize = window.settings.get("finder-icon-size");
+		let iconSize = window.settings.getItem("finder-icon-size");
 		this.el.contentView.attr({style: `--icon-size: ${iconSize}px`});
 		this.el.iconResizer.val(iconSize);
 
@@ -36,7 +36,7 @@ const finder = {
 		});
 
 		// auto click toolbar
-		window.find(`[data-arg='${window.settings.get("finder-file-view")}']`).trigger("click");
+		window.find(`[data-arg='${window.settings.getItem("finder-file-view")}']`).trigger("click");
 
 		// temp
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
@@ -72,7 +72,7 @@ const finder = {
 				self.setViewState(true);
 				break;
 			case "new-tab":
-				path = window.settings.get("finder-default-path");
+				path = window.settings.getItem("finder-default-path");
 				name = window.path.dirname(path);
 				tab = window.tabs.add(name);
 
@@ -115,7 +115,7 @@ const finder = {
 				state = {
 					cwd: event.path,
 					list: event.el.find(".ant-file_").length,
-					view: window.settings.get("finder-file-view"),
+					view: window.settings.getItem("finder-file-view"),
 				};
 				if (event.kind) {
 					state.kind = event.kind;
@@ -154,7 +154,7 @@ const finder = {
 			case "select-file-view":
 			//	console.log(view.history.current);
 				// update setting
-				window.settings.set("finder-file-view", event.arg);
+				window.settings.setItem("finder-file-view", event.arg);
 				
 				// set state and path
 				state = view.history.current;
@@ -178,7 +178,7 @@ const finder = {
 				});
 				return true;
 			case "set-icon-size":
-				window.settings.set("finder-icon-size", event.value);
+				window.settings.setItem("finder-icon-size", event.value);
 				self.el.contentView.attr({style: `--icon-size: ${event.value}px`});
 				break;
 		}
@@ -211,11 +211,11 @@ const finder = {
 		this.el.iconResizer.css({display: state.view === "icons" ? "block" : "none"});
 
 		if (render) {
-			if (window.settings.get("finder-file-view") !== state.view) {
+			if (window.settings.getItem("finder-file-view") !== state.view) {
 				this.el.contentView.html("");
 			}
 			// update setting
-			window.settings.set("finder-file-view", state.view);
+			window.settings.setItem("finder-file-view", state.view);
 			// toggle horizontal scroll for columns
 			this.el.contentView.toggleClass("view-columns", state.view !== "columns");
 
