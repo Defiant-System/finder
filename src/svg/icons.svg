@@ -1,36 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
-	<svg id="icon-arrow-left" viewBox="0 0 240 240">
-		<polyline fill="none" stroke="#333" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="165,28.75 74,119.75 165.75,211"/>
+	<svg id="icon-arrow-left" viewBox="0 0 13 13">
+		<style type="text/css">
+			.st0{fill:#333333;}
+		</style>
+		<polygon class="st0" points="9.2,1.6 8.5,0.8 3.5,5.8 3.5,5.8 2.8,6.5 3.5,7.2 8.5,12.2 9.2,11.4 4.2,6.5 "/>
 	</svg>
 
-	<svg id="icon-arrow-right" viewBox="0 0 240 240">
-		<polyline fill="none" stroke="#333" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="74,211.25 165,120.25 74.25,28"/>
+	<svg id="icon-arrow-right" viewBox="0 0 13 13">
+		<style type="text/css">
+			.st0{fill:#333333;}
+		</style>
+		<polygon class="st0" points="2.8,11.4 3.5,12.2 8.5,7.2 8.5,7.2 9.2,6.5 8.5,5.8 3.5,0.8 2.8,1.6 7.8,6.5 "/>
 	</svg>
 
-	<svg id="icon-view-icons" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M595.048 94.828v331.899h331.899v-331.899h-331.899zM851.085 350.865h-180.174v-180.174h180.174v180.174z" />
-		<path fill="#333" d="M92.458 929.319h331.899v-331.899h-331.899v331.899zM168.32 673.282h180.174v179.581h-180.174v-179.581z" />
-		<path fill="#333" d="M92.458 426.728h331.899v-331.899h-331.899v331.899zM168.32 170.691h180.174v180.174h-180.174v-180.174z" />
-		<path fill="#333" d="M595.048 929.319h331.899v-331.899h-331.899v331.899zM670.911 673.282h180.174v180.174h-180.174v-180.174z" />
+	<svg id="icon-view-icons" viewBox="0 0 13 13">
+		<style type="text/css">
+			.st0{fill:#777;}
+		</style>
+		<path class="st0" d="M5,1H2H1v5h1h4V5V1H5z M2,5V2h3v3H2z"/>
+		<path class="st0" d="M11,1H8H7v5h1h4V5V1H11z M8,5V2h3v3H8z"/>
+		<path class="st0" d="M5,7H2H1v5h1h4v-1V7H5z M2,11V8h3v3H2z"/>
+		<path class="st0" d="M11,7H8H7v5h1h4v-1V7H11z M8,11V8h3v3H8z"/>
 	</svg>
 
-	<svg id="icon-view-list" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M74.755,94.755h874.49v74.677H74.755V94.755z" />
-		<path fill="#333" d="M74.755,348.025h874.49v74.677H74.755V348.025z" />
-		<path fill="#333" d="M74.755,601.298h874.49v74.677H74.755V601.298z" />
-		<path fill="#333" d="M74.755,854.568h874.49v74.677H74.755V854.568z" />
+	<svg id="icon-view-list" viewBox="0 0 13 13">
+		<style type="text/css">
+			.st0{fill:#777;}
+		</style>
+		<rect x="1" y="1" class="st0" width="11" height="1"/>
+		<rect x="1" y="4" class="st0" width="11" height="1"/>
+		<rect x="1" y="7" class="st0" width="11" height="1"/>
+		<rect x="1" y="10" class="st0" width="11" height="1"/>
 	</svg>
 
-	<svg id="icon-view-columns" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M34.755,104.755v834.49h954.49v-834.49H34.755z M622.567,179.432v685.137H402.432V179.432H622.567z M109.432,179.432 h218.323v685.137H109.432V179.432z M914.567,864.568H697.243l0.002-685.137h217.322V864.568z"/>
+	<svg id="icon-view-columns" viewBox="0 0 13 13">
+		<style type="text/css">
+			.st0{fill:#777;}
+		</style>
+		<path class="st0" d="M12,1H1H0v11h1h12v-1V1H12z M1,11V2h11v9H1z"/>
+		<rect x="4" y="2" class="st0" width="1" height="9"/>
+		<rect x="8" y="2" class="st0" width="1" height="9"/>
 	</svg>
 
-	<svg id="icon-view-flow" viewBox="0 0 1024 1024">
-		<path fill="#333" d="M284.947,252.437h455.122v519.122H284.947V252.437z" />
-		<path fill="#333" d="M1006,185.982v652.035h-76.742V185.982H1006z" />
-		<path fill="#333" d="M94.742,185.982v652.035H18V185.982H94.742z" />
-		<path fill="#333" d="M874.952,237.363v549.271H798.21V237.363H874.952z" />
-		<path fill="#333" d="M227.118,237.363v549.271h-76.742V237.363H227.118z" />
+	<svg id="icon-view-flow" viewBox="0 0 13 13">
 	</svg>
 
 	<svg id="icon-gear" viewBox="0 0 1024 1024">

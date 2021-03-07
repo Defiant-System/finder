@@ -40,7 +40,8 @@ const finder = {
 
 		// temp
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
-		//setTimeout(() => this.el.contentView.find(".column_:nth-child(2) .ant-file_:nth-child(4)").trigger("click"), 30);
+		// setTimeout(() => this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click"), 30);
+		setTimeout(() => this.dispatch({ type: "new-tab" }), 230);
 	},
 	dispatch(event) {
 		let self = finder,
