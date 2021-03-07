@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
 	<svg id="icon-arrow-left" viewBox="0 0 13 13">
 		<style type="text/css">
-			.st0{fill:#333333;}
+			.st0{fill:#333;}
 		</style>
 		<polygon class="st0" points="9.2,1.6 8.5,0.8 3.5,5.8 3.5,5.8 2.8,6.5 3.5,7.2 8.5,12.2 9.2,11.4 4.2,6.5 "/>
 	</svg>
 
 	<svg id="icon-arrow-right" viewBox="0 0 13 13">
 		<style type="text/css">
-			.st0{fill:#333333;}
+			.st0{fill:#333;}
 		</style>
 		<polygon class="st0" points="2.8,11.4 3.5,12.2 8.5,7.2 8.5,7.2 9.2,6.5 8.5,5.8 3.5,0.8 2.8,1.6 7.8,6.5 "/>
 	</svg>
 
 	<svg id="icon-view-icons" viewBox="0 0 13 13">
 		<style type="text/css">
-			.st0{fill:#777;}
+			.st0{fill:#333;}
 		</style>
 		<path class="st0" d="M5,1H2H1v5h1h4V5V1H5z M2,5V2h3v3H2z"/>
 		<path class="st0" d="M11,1H8H7v5h1h4V5V1H11z M8,5V2h3v3H8z"/>
@@ -25,7 +25,7 @@
 
 	<svg id="icon-view-list" viewBox="0 0 13 13">
 		<style type="text/css">
-			.st0{fill:#777;}
+			.st0{fill:#333;}
 		</style>
 		<rect x="1" y="1" class="st0" width="11" height="1"/>
 		<rect x="1" y="4" class="st0" width="11" height="1"/>
@@ -35,7 +35,7 @@
 
 	<svg id="icon-view-columns" viewBox="0 0 13 13">
 		<style type="text/css">
-			.st0{fill:#777;}
+			.st0{fill:#333;}
 		</style>
 		<path class="st0" d="M12,1H1H0v11h1h12v-1V1H12z M1,11V2h11v9H1z"/>
 		<rect x="4" y="2" class="st0" width="1" height="9"/>
