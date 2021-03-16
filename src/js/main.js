@@ -19,7 +19,7 @@ const finder = {
 
 		// initial value for icon resizer
 		let iconSize = window.settings.getItem("finder-icon-size");
-		this.el.contentView.attr({style: `--icon-size: ${iconSize}px`});
+		this.el.contentView.css({ "--icon-size": `${iconSize}px` });
 		this.el.iconResizer.val(iconSize);
 
 		// disk info
@@ -31,7 +31,6 @@ const finder = {
 		// render sidebar
 		window.render({
 			template: "sys:fs-sideBar",
-			match: `sys://Settings/Finder/*[@id="sidebar"]`,
 			target: this.el.sideBar,
 		});
 
@@ -40,8 +39,8 @@ const finder = {
 
 		// temp
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
-		// setTimeout(() => this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(1)").trigger("click"), 30);
-		setTimeout(() => this.dispatch({ type: "new-tab" }), 230);
+		// setTimeout(() => this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(5)").trigger("click"), 30);
+		// setTimeout(() => this.dispatch({ type: "new-tab" }), 230);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -180,7 +179,7 @@ const finder = {
 				return true;
 			case "set-icon-size":
 				window.settings.setItem("finder-icon-size", event.value);
-				self.el.contentView.attr({style: `--icon-size: ${event.value}px`});
+				self.el.contentView.css({ "--icon-size": `${event.value}px` });
 				break;
 		}
 	},
