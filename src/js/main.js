@@ -7,6 +7,7 @@ let view = {
 	};
 let views = [view];
 
+
 const finder = {
 	el: {},
 	async init() {
@@ -206,6 +207,8 @@ const finder = {
 			str = `${selected} of ${total} selected, ${disk.avail} available`;
 		}
 		window.statusBar.find(".content").text(str);
+		// set path as default path
+		window.settings.setItem("finder-default-path", state.cwd);
 
 		// show status-bar slider only for icons view
 		this.el.iconResizer.css({display: state.view === "icons" ? "block" : "none"});
