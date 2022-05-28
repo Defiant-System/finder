@@ -42,6 +42,8 @@ const finder = {
 		//setTimeout(() => window.find(`[data-arg='icons']`).trigger("click"), 30);
 		// setTimeout(() => this.el.contentView.find(".column_:nth-child(1) .ant-file_:nth-child(5)").trigger("click"), 30);
 		// setTimeout(() => this.dispatch({ type: "new-tab" }), 230);
+		
+		// setTimeout(() => window.close(), 800);
 	},
 	dispatch(event) {
 		let self = finder,
@@ -61,10 +63,6 @@ const finder = {
 					arg: event.path,
 				});
 				break;
-			case "window.open":
-				//defiant.shell("win -a");
-				break;
-
 			// tab related events
 			case "active-tab":
 				if (view === views[event.el.index()]) return;
@@ -179,7 +177,7 @@ const finder = {
 				});
 				return true;
 			case "set-icon-size":
-				window.settings.setItem("finder-icon-size", event.value);
+				window.settings.setItem("finder-icon-size", +event.value);
 				self.el.contentView.css({ "--icon-size": `${event.value}px` });
 				break;
 		}
