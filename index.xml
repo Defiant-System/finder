@@ -9,7 +9,6 @@
 		<meta name="height" value="380" min="300"/>
 		<meta name="top" value="220"/>
 		<meta name="left" value="160"/>
-		<meta name="clones" value="true"/>
 		<meta name="minimize"/>
 		<meta name="maximize"/>
 		<meta name="resize"/>
