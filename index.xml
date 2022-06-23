@@ -13,6 +13,7 @@
 		<meta name="maximize"/>
 		<meta name="resize"/>
 		<meta name="statusbar"/>
+		<meta name="allowTabs"/>
 		<meta name="script" value="src/js/main.js"/>
 		<meta name="style" value="src/css/main.less"/>
 		<meta name="toolbar-style" value="src/css/toolbar.less"/>
