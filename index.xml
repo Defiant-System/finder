@@ -5,29 +5,10 @@
 		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0-or-later"/>
 		<meta name="repository" value="https://github.com/Defiant-System/finder"/>
-		<meta name="width" value="765" min="500"/>
-		<meta name="height" value="380" min="300"/>
-		<meta name="top" value="220"/>
-		<meta name="left" value="160"/>
-		<meta name="minimize"/>
-		<meta name="maximize"/>
-		<meta name="resize"/>
-		<meta name="statusbar"/>
-		<meta name="allowTabs"/>
 		<meta name="script" value="src/js/main.js"/>
-		<meta name="style" value="src/css/main.less"/>
-		<meta name="toolbar-style" value="src/css/toolbar.less"/>
 		<meta name="icons" value="src/svg/icons.svg"/>
-		<meta name="content" value="src/partials/content.htm"/>
-		
-		@import "src/partials/toolbar.xml"
+		<meta name="spawn" value="src/partials/spawn.xml"/>
+
 		@import "src/partials/menubar.xml"
 	</Head>
-	<Foot>
-		<Group>
-			<Text class="content"></Text>
-			<Slider class="icon-resizer" value="79" min="53" max="181" data-change="set-icon-size"></Slider>
-		</Group>
-	</Foot>
-
 </Application>

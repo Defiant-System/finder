@@ -1,0 +1,22 @@
+<Spawn id="spawn">
+	<Head>
+		<meta name="title" value="New Window"/>
+		<meta name="width" value="765" min="500"/>
+		<meta name="height" value="380" min="300"/>
+		<meta name="top" value="220"/>
+		<meta name="left" value="160"/>
+		<meta name="minimize"/>
+		<meta name="maximize"/>
+		<meta name="resize"/>
+		<meta name="style" value="../css/spawn.less"/>
+		<meta name="content" value="content.htm"/>
+
+		@import "toolbar.xml"
+	</Head>
+	<Foot>
+		<Group>
+			<Text class="content"></Text>
+			<Slider class="icon-resizer" value="79" min="53" max="181" data-change="set-icon-size"></Slider>
+		</Group>
+	</Foot>
+</Spawn>
