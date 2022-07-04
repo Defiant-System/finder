@@ -56,6 +56,23 @@
 					el: Spawn.find("content > div"),
 				});
 				break;
+			case "select-file-view":
+				// update setting
+				window.settings.setItem("finder-file-view", event.arg);
+				// set state and path
+				state = Spawn.data.history.current;
+				// handles file selected
+				if (state && state.kind) {
+					state = view.history.stack[view.history.index-1];
+				}
+				// trigger history state push
+				Self.dispatch({
+					path: state.cwd,
+					spawn: event.spawn,
+					type: "fs-view-render",
+					el: Spawn.find("content > div"),
+				});
+				return true;
 		}
 	},
 	setViewState(Spawn, render) {

@@ -14,7 +14,7 @@ const finder = {
 	dispatch(event) {
 		let Self = finder,
 			el;
-		// proxy newMail (spawn) events
+		// proxy spawn events
 		if (event.spawn) return Self.spawn.dispatch(event);
 		// console.log(event);
 		switch (event.type) {
