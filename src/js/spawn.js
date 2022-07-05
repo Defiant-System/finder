@@ -23,16 +23,24 @@
 					template: "sys:fs-sideBar",
 					target: Spawn.find("sidebar"),
 				});
-				// trigger history state push
-				// Self.dispatch({
-				// 	path: window.settings.getItem("finder-default-path"),
-				// 	spawn: event.spawn,
-				// 	type: "fs-view-render",
-				// 	el: Spawn.find("content > div"),
-				// });
-				console.log(event);
+				// push to history
+				Spawn.data.history.push({
+					cwd: window.settings.getItem("finder-default-path"),
+					view: window.settings.getItem("finder-file-view"),
+				});
+				// auto click toolbar
+				Spawn.find(`[data-arg='${window.settings.getItem("finder-file-view")}']`).trigger("click");
 				break;
 			case "spawn.close":
+				break;
+			case "spawn.init":
+				path = window.settings.getItem("finder-default-path");
+				// render path
+				Self.dispatch({ ...event, path, type: "fs-view-render" });
+				break;
+			case "open.file":
+				// render path
+				Self.dispatch({ ...event, type: "fs-view-render" });
 				break;
 			// custom events
 			case "history-go":
@@ -71,6 +79,14 @@
 				// handles file selected
 				if (state && state.kind) {
 					state = view.history.stack[view.history.index-1];
+				}
+				if (state.view === "columns") {
+					// render content view
+					window.render({
+						path: state.cwd,
+						template: "sys:fs-fileView",
+						target: Spawn.find("content > div"),
+					});
 				}
 				// trigger history state push
 				Self.dispatch({
@@ -111,57 +127,58 @@
 		// update setting
 		window.settings.setItem("finder-file-view", state.view);
 
-		if (render) {
-			if (window.settings.getItem("finder-file-view") !== state.view) {
-				target.html("");
-			}
-			// update setting
-			window.settings.setItem("finder-file-view", state.view);
-			// toggle horizontal scroll for columns
-			target.toggleClass("view-columns", state.view !== "columns");
 
-			if (state.view === "columns") {
-				target.find(`.column_`).map(el => {
-					if (!~state.columns.indexOf(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
-				});
-				// un-active active item
-				Spawn.find("content > div .column_:last .ant-file_.file-active_").removeClass("file-active_");
-				if (!Spawn.find("content > div .fs-root_").length) {
-					target.append(`<div class="fs-root_"></div>`);
-				}
-				// add missing columns
-				state.columns.map(path => {
-					let column = Spawn.find(`content > div .column_[data-path="${path}"]`),
-						name = path.slice(path.lastIndexOf("/") + 1),
-						append = Spawn.find("content > div .fs-root_"),
-						left;
-					if (!column.length) {
-						column = window.render({
-							path,
-							append: append.length ? append : target,
-							template: "sys:fs-fileView",
-						});
-						// calculate left
-						left = column.prop("offsetLeft") + column.prop("offsetWidth") - target.prop("offsetWidth");
-						target.prop({"scrollLeft": left});
-						
-						column = column.prev(".column_");
-						if (column.length) {
-							column.find(`.name:contains("${name}")`).parent().addClass("file-active_");
-						} else {
-							Spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
-							Spawn.find(`sidebar li[data-path="${path}"]`).addClass("sidebar-active_");
-						}
-					}
-				});
-			} else {
-				window.render({
-					path: state.cwd,
-					template: "sys:fs-fileView",
-					target,
-				});
-			}
+		if (window.settings.getItem("finder-file-view") !== state.view) {
+			target.html("");
 		}
+		// update setting
+		window.settings.setItem("finder-file-view", state.view);
+		// toggle horizontal scroll for columns
+		target.toggleClass("view-columns", state.view !== "columns");
+
+		if (state.view === "columns") {
+			// keeps track of rendered columns (when using history go prev/next)
+			target.find(`.column_`).map(el => {
+				if (!~state.columns.indexOf(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
+			});
+			// un-active active item
+			target.find(".column_:last").find(".ant-file_.file-active_").removeClass("file-active_");
+			if (!target.find(".fs-root_").length) {
+				target.append(`<div class="fs-root_"></div>`);
+			}
+			// add missing columns
+			state.columns.map(path => {
+				let column = Spawn.find(`content > div .column_[data-path="${path}"]`),
+					name = path.slice(path.lastIndexOf("/") + 1),
+					append = Spawn.find("content > div .fs-root_"),
+					left;
+				if (!column.length) {
+					column = window.render({
+						path,
+						append: append.length ? append : target,
+						template: "sys:fs-fileView",
+					});
+					// calculate left
+					left = column.prop("offsetLeft") + column.prop("offsetWidth") - target.prop("offsetWidth");
+					target.prop({"scrollLeft": left});
+					
+					column = column.prev(".column_");
+					if (column.length) {
+						column.find(`.name:contains("${name}")`).parent().addClass("file-active_");
+					} else {
+						Spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
+						Spawn.find(`sidebar li[data-path="${path}"]`).addClass("sidebar-active_");
+					}
+				}
+			});
+		} else {
+			window.render({
+				path: state.cwd,
+				template: "sys:fs-fileView",
+				target,
+			});
+		}
+
 
 		// update status-bar
 		let len = target.find(".ant-file_").length,

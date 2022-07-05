@@ -13,16 +13,20 @@ const finder = {
 	},
 	dispatch(event) {
 		let Self = finder,
+			spawn,
 			el;
+		// console.log(event);
 		// proxy spawn events
 		if (event.spawn) return Self.spawn.dispatch(event);
-		// console.log(event);
+		
 		switch (event.type) {
 			case "window.init":
-				window.open("spawn");
+				spawn = window.open("spawn");
+				Self.spawn.dispatch({ ...event, type: "spawn.init", spawn });
 				break;
 			case "open.file":
-				console.log(event);
+				spawn = window.open("spawn");
+				Self.spawn.dispatch({ ...event, spawn });
 				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
