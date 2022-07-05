@@ -73,6 +73,10 @@
 					el: Spawn.find("content > div"),
 				});
 				return true;
+			case "set-icon-size":
+				window.settings.setItem("finder-icon-size", +event.value);
+				Spawn.find("content > div").css({ "--icon-size": `${event.value}px` });
+				break;
 		}
 	},
 	setViewState(Spawn, render) {
