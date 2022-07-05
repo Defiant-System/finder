@@ -21,6 +21,9 @@ const finder = {
 			case "window.init":
 				window.open("spawn");
 				break;
+			case "open.file":
+				console.log(event);
+				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
 				break;
