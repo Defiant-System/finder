@@ -47,7 +47,7 @@
 				if (event.arg === "-1") Spawn.data.history.goBack();
 				else Spawn.data.history.goForward();
 				// update view state
-				Self.setViewState(Spawn, true);
+				Self.setViewState(Spawn);
 				break;
 			case "fs-view-render":
 				// push to history
@@ -102,7 +102,7 @@
 				break;
 		}
 	},
-	setViewState(Spawn, render) {
+	setViewState(Spawn) {
 		let target = Spawn.find("content > div"),
 			history = Spawn.data.history,
 			state = history.current;
