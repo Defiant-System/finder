@@ -3,7 +3,7 @@
 
 {
 	init() {
-
+		window.settings.setItem("finder-file-view", "columns");
 	},
 	dispatch(event) {
 		let APP = finder,
@@ -62,8 +62,6 @@
 				Self.setViewState(Spawn);
 				break;
 			case "select-file-view":
-				// update setting
-				window.settings.setItem("finder-file-view", event.arg);
 				// push to history
 				state = Spawn.data.history.current;
 				Spawn.data.history.push({
@@ -84,6 +82,7 @@
 			history = Spawn.data.history,
 			state = history.current,
 			path = state.cwd;
+
 		// update window title
 		Spawn.title = window.path.dirname(path);
 		// update sidebar "active"
@@ -92,6 +91,12 @@
 		// toolbar UI update
 		Spawn.find(`[data-click="history-go"][data-arg="-1"]`).toggleClass("tool-disabled_", history.canGoBack);
 		Spawn.find(`[data-click="history-go"][data-arg="1"]`).toggleClass("tool-disabled_", history.canGoForward);
+		// update setting
+		window.settings.setItem("finder-file-view", state.view);
+		// update toolbar
+		let viewTool = Spawn.find(`[data-arg='${state.view}']`);
+		viewTool.parent().find(".tool-active_").removeClass("tool-active_");
+		viewTool.addClass("tool-active_");
 		
 		// render content
 		window.render({ template: "sys:fs-fileView", target, path });
