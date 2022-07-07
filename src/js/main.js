@@ -18,7 +18,7 @@ const finder = {
 		// console.log(event);
 		// proxy spawn events
 		if (event.spawn) return Self.spawn.dispatch(event);
-		
+
 		switch (event.type) {
 			case "window.init":
 				spawn = window.open("spawn");
@@ -27,6 +27,8 @@ const finder = {
 			case "open.file":
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, spawn });
+
+				// setTimeout(() => spawn.find(`.toolbar-tool_[data-arg="list"]`).trigger("click"), 500);
 				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
