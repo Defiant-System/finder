@@ -7,8 +7,16 @@ layout {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	overflow: hidden;
 	display: flex;
 	flex-flow: wrap;
+
+	&.hide-sidebar {
+		sidebar {
+			left: -150px;
+			width: 0;
+		}
+	}
 }
 
 sidebar {
