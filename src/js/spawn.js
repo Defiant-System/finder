@@ -28,8 +28,6 @@
 				value = window.settings.getItem("finder-icon-size");
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
-				// auto click toolbar
-				Spawn.find(`[data-arg='${window.settings.getItem("finder-file-view")}']`).trigger("click");
 				// temp
 				setTimeout(() => Spawn.find(`.ant-file_:nth(7)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-click="history-go"]`).trigger("click"), 1200);
@@ -39,6 +37,13 @@
 			case "spawn.close":
 				break;
 			case "spawn.init":
+				value = window.settings.getItem("finder-default-path");
+				// render path
+				Self.dispatch({ ...event, render: true, path: value, type: "fs-view-render" });
+				break;
+			case "open.file":
+				// render path
+				Self.dispatch({ ...event, render: true, type: "fs-view-render" });
 				break;
 			case "fs-view-render":
 				state = {
