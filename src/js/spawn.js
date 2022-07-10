@@ -154,8 +154,8 @@
 			}
 		}
 		// update status-bar
-		let cEl = target.find(".column_:last");
-		let len = cEl.find(".ant-file_").length,
+		let cEl = target.find(".column_:last"),
+			len = cEl.find(".ant-file_").length,
 			str = `${len} items, ${disk.avail} available`;
 		if (state.kind) {
 			cEl = target.find(".column_:nth-last-child(2)");
