@@ -31,9 +31,10 @@
 				// auto click toolbar
 				Spawn.find(`[data-arg='${window.settings.getItem("finder-file-view")}']`).trigger("click");
 				// temp
-				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
+				setTimeout(() => Spawn.find(`.ant-file_:nth(7)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-click="history-go"]`).trigger("click"), 1200);
-				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="list"]`).trigger("click"), 500);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 				break;
 			case "spawn.close":
 				break;
@@ -44,12 +45,11 @@
 					cwd: event.path || window.settings.getItem("finder-default-path"),
 					view: event.view || window.settings.getItem("finder-file-view"),
 				};
-				if (event.kind) {
-					state.kind = event.kind;
-				}
+				if (event.kind) state.kind = event.kind;
+				if (event.columns) state.columns = event.columns;
 				if (state.view === "columns") {
-					state.columns = Spawn.find("content > div").find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
-					if (!state.columns.length) state.columns = [state.cwd];
+					state.columns = Spawn.find("content > div .column_").map(e => "/fs"+ e.getAttribute("data-path"));
+					if (!state.columns.length) state.columns = event.columns || [state.cwd];
 				}
 				Spawn.data.history.push(state);
 				// console.log(state);
@@ -77,11 +77,18 @@
 			case "select-file-view":
 				// get current state
 				state = Spawn.data.history.current;
+				// handles file selected
+				if (state && state.kind) {
+					let columns = state.columns;
+					state = Spawn.data.history.stack[Spawn.data.history.index-1];
+					state.columns = columns;
+				}
 				// forward event
 				Self.dispatch({
 					type: "fs-view-render",
 					path: state ? state.cwd : window.settings.getItem("finder-default-path"),
 					view: event.arg,
+					columns: state ? state.columns : false,
 					render: true,
 					spawn: Spawn,
 				});
