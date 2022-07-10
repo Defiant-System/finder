@@ -27,8 +27,6 @@ const finder = {
 			case "open.file":
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, spawn });
-
-				// setTimeout(() => spawn.find(`.toolbar-tool_[data-arg="list"]`).trigger("click"), 500);
 				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");

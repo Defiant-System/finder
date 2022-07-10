@@ -3,13 +3,13 @@
 
 {
 	init() {
+		// temp
 		window.settings.setItem("finder-file-view", "columns");
 	},
 	dispatch(event) {
 		let APP = finder,
 			Self = APP.spawn,
 			Spawn = event.spawn,
-			target,
 			state,
 			value,
 			el;
@@ -24,52 +24,67 @@
 					template: "sys:fs-sideBar",
 					target: Spawn.find("sidebar"),
 				});
-				// push to history
-				// Spawn.data.history.push({
-				// 	cwd: window.settings.getItem("finder-default-path"),
-				// 	view: window.settings.getItem("finder-file-view"),
-				// });
 				// initial value for icon resizer
 				value = window.settings.getItem("finder-icon-size");
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
 				// auto click toolbar
 				Spawn.find(`[data-arg='${window.settings.getItem("finder-file-view")}']`).trigger("click");
-				// update view state
-				Self.setViewState(Spawn);
+				// temp
+				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-click="history-go"]`).trigger("click"), 1200);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="list"]`).trigger("click"), 500);
 				break;
 			case "spawn.close":
 				break;
 			case "spawn.init":
 				break;
-
+			case "fs-view-render":
+				state = {
+					cwd: event.path || window.settings.getItem("finder-default-path"),
+					view: event.view || window.settings.getItem("finder-file-view"),
+				};
+				if (event.kind) {
+					state.kind = event.kind;
+				}
+				if (state.view === "columns") {
+					state.columns = Spawn.find("content > div").find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
+					if (!state.columns.length) state.columns = [state.cwd];
+				}
+				Spawn.data.history.push(state);
+				// console.log(state);
+				// update view state
+				Self.setViewState(Spawn, event.render);
+				break;
 			// custom events
 			case "history-go":
 				if (event.arg === "-1") Spawn.data.history.goBack();
 				else Spawn.data.history.goForward();
 				// update view state
-				Self.setViewState(Spawn);
+				Self.setViewState(Spawn, true);
 				break;
 			case "get-sidebar-item":
-				// update view state
-				Self.setViewState(Spawn);
-				// push to history
-				Spawn.data.history.push({
-					cwd: event.arg,
-					view: window.settings.getItem("finder-file-view"),
+				// empty contents
+				Spawn.find("content > div").html("");
+				// forward event
+				Self.dispatch({
+					type: "fs-view-render",
+					path: event.arg,
+					render: true,
+					spawn: Spawn,
 				});
-				// update view state
-				Self.setViewState(Spawn);
 				break;
 			case "select-file-view":
-				// push to history
+				// get current state
 				state = Spawn.data.history.current;
-				Spawn.data.history.push({
-					cwd: state ? state.cwd : window.settings.getItem("finder-default-path"),
+				// forward event
+				Self.dispatch({
+					type: "fs-view-render",
+					path: state ? state.cwd : window.settings.getItem("finder-default-path"),
 					view: event.arg,
+					render: true,
+					spawn: Spawn,
 				});
-				// update view state
-				Self.setViewState(Spawn);
 				return true;
 			case "set-icon-size":
 				window.settings.setItem("finder-icon-size", +event.value);
@@ -77,33 +92,79 @@
 				break;
 		}
 	},
-	setViewState(Spawn) {
+	setViewState(Spawn, render) {
 		let target = Spawn.find("content > div"),
 			history = Spawn.data.history,
 			state = history.current,
-			path = state.cwd;
+			path = state.cwd,
+			firstPath = state.columns ? state.columns[0] : path;
 
 		// update window title
 		Spawn.title = window.path.dirname(path);
 		// update sidebar "active"
 		Spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
-		Spawn.find(`sidebar li[data-path="${path}"]`).addClass("sidebar-active_");
+		Spawn.find(`sidebar li[data-path="${firstPath}"]`).addClass("sidebar-active_");
 		// toolbar UI update
 		Spawn.find(`[data-click="history-go"][data-arg="-1"]`).toggleClass("tool-disabled_", history.canGoBack);
 		Spawn.find(`[data-click="history-go"][data-arg="1"]`).toggleClass("tool-disabled_", history.canGoForward);
 		// update setting
 		window.settings.setItem("finder-file-view", state.view);
 		// update toolbar
-		let viewTool = Spawn.find(`[data-arg='${state.view}']`);
-		viewTool.parent().find(".tool-active_").removeClass("tool-active_");
-		viewTool.addClass("tool-active_");
-		
-		// render content
-		window.render({ template: "sys:fs-fileView", target, path });
+		let tool = Spawn.find(`[data-arg='${state.view}']`);
+		tool.parent().find(".tool-active_").removeClass("tool-active_");
+		tool.addClass("tool-active_");
 
+		if (render) {
+			if (state.view === "columns") {
+				// remove redundant columns
+				target.find(`.column_`).map(el => {
+					if (!state.columns.includes(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
+				});
+				// empty contents if not already columns-view
+				if (!target.hasClass("fs-columns_")) target.html("");
+				// add rool element for columns, if missing
+				if (!target.find(".fs-root_").length) {
+					target.append(`<div class="fs-root_"></div>`);
+				}
+				// render missing columns
+				state.columns.map(path => {
+					let column = Spawn.find(`content > div .column_[data-path="${path}"]`),
+						name = path.slice(path.lastIndexOf("/") + 1),
+						append = Spawn.find("content > div .fs-root_"),
+						left;
+					if (!column.length) {
+						column = window.render({
+							path,
+							append: append.length ? append : target,
+							template: "sys:fs-fileView",
+						});
+						// calculate left
+						left = column.prop("offsetLeft") + column.prop("offsetWidth") - target.prop("offsetWidth");
+						target.prop({"scrollLeft": left});
+
+						column = column.prev(".column_");
+						if (column.length) {
+							column.find(`.file-name_:contains("${name}")`).parent().addClass("file-active_");
+						}
+					}
+				});
+			} else {
+				// render content
+				window.render({ template: "sys:fs-fileView", target, path });
+			}
+		}
 		// update status-bar
-		let len = target.find(".ant-file_").length,
+		let cEl = target.find(".column_:last");
+		let len = cEl.find(".ant-file_").length,
 			str = `${len} items, ${disk.avail} available`;
+		if (state.kind) {
+			cEl = target.find(".column_:nth-last-child(2)");
+			len = cEl.find(".ant-file_").length;
+			let selected = state.kind === "_dir" ? cEl.find(".ant-file_.file-active").length : 1;
+			str = `${selected} of ${len} selected, ${disk.avail} available`;
+		}
 		Spawn.statusBar.find(".content").text(str);
+		// show status-bar slider only for icons view
+		Spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
 	}
 }
