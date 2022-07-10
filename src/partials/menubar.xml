@@ -14,24 +14,12 @@
 		<Menu type="divider"/>
 		<Menu name="License"/>
 	</Menu>
-	<Menu name="View" for="toolbar-context">
-		<Menu name="View&#8230;" for="view-options">
-			<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as"/>
-			<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
-			<Menu name="as Columns" click="select-file-view" arg="columns" check-group="view-items-as" is-checked="1"/>
-		</Menu>
-		<Menu name="Sort By&#8230;" for="view-sort-by">
-			<Menu name="Name" check-group="sort-items-by" is-checked="1"/>
-			<Menu name="Kind" check-group="sort-items-by"/>
-			<Menu name="Size" check-group="sort-items-by"/>
-			<Menu name="Date Modified" check-group="sort-items-by"/>
-		</Menu>
+	<Menu name="View">
+		<Menu name="View&#8230;" invoke="view-options"/>
 		<Menu type="divider"/>
-		<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons"/>
-		<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
-		<Menu name="Hide Status Bar" toggle_false="Show Status Bar" click="toggle-statusbar-view"/>
+		<Menu name="Sort By&#8230;" invoke="view-sort-by"/>
 		<Menu type="divider"/>
-		<Menu name="Hide Toolbar" toggle_true="Show Toolbar" click="toggle-toolbar"/>
+		<Menu name="Toggles&#8230;" invoke="view-toggles"/>
 	</Menu>
 	<Menu name="Window">
 		<Menu name="New Finder Window" click="new-clone-window" hotkey="alt+n"/>
@@ -49,5 +37,26 @@
 		<Menu name="Finder Help"/>
 		<Menu type="divider"/>
 		<Menu name="License"/>
+	</Menu>
+
+	<Menu name="View" for="toolbar-context">
+		<Menu name="View&#8230;" for="view-options">
+			<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as"/>
+			<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
+			<Menu name="as Columns" click="select-file-view" arg="columns" check-group="view-items-as" is-checked="1"/>
+		</Menu>
+		<Menu name="Sort By&#8230;" for="view-sort-by">
+			<Menu name="Name" check-group="sort-items-by" is-checked="1"/>
+			<Menu name="Kind" check-group="sort-items-by"/>
+			<Menu name="Size" check-group="sort-items-by"/>
+			<Menu name="Date Modified" check-group="sort-items-by"/>
+		</Menu>
+		<Menu name="Toggle&#8230;" for="view-toggles">
+			<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons"/>
+			<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
+			<Menu name="Hide Status Bar" toggle_false="Show Status Bar" click="toggle-statusbar-view"/>
+			<Menu type="divider"/>
+			<Menu name="Hide Toolbar" toggle_true="Show Toolbar" click="toggle-toolbar"/>
+		</Menu>
 	</Menu>
 </MenuBar>

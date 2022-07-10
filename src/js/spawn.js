@@ -34,7 +34,7 @@
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 
-				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
+				setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
 				break;
 			case "spawn.close":
 				break;
@@ -67,12 +67,21 @@
 			// menu events
 			case "toggle-sidebar-view":
 				el = Spawn.find(`layout`);
-				el.toggleClass("hide-sidebar", el.hasClass("hide-sidebar"))
+				el.toggleClass("hide-sidebar", el.hasClass("hide-sidebar"));
 				return el.hasClass("hide-sidebar") ? "toggle_false" : "toggle_true";
 			case "toggle-statusbar-view":
-				break;
+				el = Spawn.find(`layout`);
+				el.toggleClass("hide-statusbar", el.hasClass("hide-statusbar"));
+				// notify root object
+				Spawn.state("statusbar", el.hasClass("hide-statusbar"));
+				return el.hasClass("hide-statusbar") ? "toggle_false" : "toggle_true";
 			case "toggle-toolbar":
-				break;
+			case "toggle-statusbar-view":
+				el = Spawn.find(`layout`);
+				el.toggleClass("hide-toolbar", el.hasClass("hide-toolbar"));
+				// notify root object
+				Spawn.state("toolbar", el.hasClass("hide-toolbar"));
+				return el.hasClass("hide-toolbar") ? "toggle_false" : "toggle_true";
 			case "toggle-sidebar-icons":
 				break;
 			
