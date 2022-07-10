@@ -1,7 +1,7 @@
 <Spawn id="spawn">
 	<Head>
 		<meta name="title" value="New Window"/>
-		<meta name="width" value="765" min="500"/>
+		<meta name="width" value="765" min="540"/>
 		<meta name="height" value="380" min="300"/>
 		<meta name="top" value="220"/>
 		<meta name="left" value="160"/>

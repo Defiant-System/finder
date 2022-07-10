@@ -34,7 +34,7 @@
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 
-				setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
 				break;
 			case "spawn.close":
 				break;
