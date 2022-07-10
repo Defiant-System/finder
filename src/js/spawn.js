@@ -29,10 +29,12 @@
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
 				// temp
-				setTimeout(() => Spawn.find(`.ant-file_:nth(7)`).trigger("click"), 200);
+				// setTimeout(() => Spawn.find(`.ant-file_:nth(7)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-click="history-go"]`).trigger("click"), 1200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
+
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
 				break;
 			case "spawn.close":
 				break;
@@ -61,6 +63,19 @@
 				// update view state
 				Self.setViewState(Spawn, event.render);
 				break;
+
+			// menu events
+			case "toggle-sidebar-view":
+				el = Spawn.find(`layout`);
+				el.toggleClass("hide-sidebar", el.hasClass("hide-sidebar"))
+				return el.hasClass("hide-sidebar") ? "toggle_false" : "toggle_true";
+			case "toggle-statusbar-view":
+				break;
+			case "toggle-toolbar":
+				break;
+			case "toggle-sidebar-icons":
+				break;
+			
 			// custom events
 			case "history-go":
 				if (event.arg === "-1") Spawn.data.history.goBack();
@@ -165,6 +180,8 @@
 				window.render({ template: "sys:fs-fileView", target, path });
 			}
 		}
+		// clean up
+		if (state.kind === "_dir") delete state.kind;
 		// update status-bar
 		let cEl = target.find(".column_:last"),
 			len = cEl.find(".ant-file_").length,
