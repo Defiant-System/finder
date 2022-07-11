@@ -22,14 +22,14 @@
 		<Menu name="Toggles&#8230;" invoke="view-toggles"/>
 	</Menu>
 	<Menu name="Window">
-		<Menu name="New Finder Window" click="new-clone-window" hotkey="alt+n"/>
+		<Menu name="New Finder Window" click="new-spawn" hotkey="alt+n"/>
 		<Menu name="New Tab" click="new-tab" hotkey="alt+t"/>
 		<Menu type="divider"/>
 		<Menu name="Minimize" shell="win -s min"/>
 		<Menu name="Maximize" shell="win -s max"/>
 		<Menu type="divider"/>
 		<Menu name="Close Tab" click="close-active-tab" hotkey="alt+w"/>
-		<Menu name="Close Window" click="close-clone-window" hotkey="shift+alt+w"/>
+		<Menu name="Close Window" click="close-spawn" hotkey="shift+alt+w"/>
 	</Menu>
 	<Menu name="Help">
 		<Menu name="Send Finder Feedback"/>

@@ -35,6 +35,8 @@
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
+				// setTimeout(() => Spawn.dialog.open({ txt: item => console.log(item) }), 500);
+				setTimeout(() => Self.dispatch({ ...event, type: "new-tab" }), 500);
 				break;
 			case "spawn.close":
 				break;
@@ -86,6 +88,11 @@
 				break;
 			
 			// custom events
+			case "new-spawn":
+			case "new-tab":
+				Spawn.tabs.add("test", "test-1");
+				Spawn.tabs.add("test 2", "test-2");
+				break;
 			case "history-go":
 				if (event.arg === "-1") Spawn.data.history.goBack();
 				else Spawn.data.history.goForward();

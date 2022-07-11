@@ -8,6 +8,7 @@
 		<meta name="minimize"/>
 		<meta name="maximize"/>
 		<meta name="resize"/>
+		<meta name="allowTabs"/>
 		<meta name="style" value="../css/spawn.less"/>
 		<meta name="content" value="content.htm"/>
 
