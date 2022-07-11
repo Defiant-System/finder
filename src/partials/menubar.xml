@@ -51,8 +51,9 @@
 			<Menu name="Size" check-group="sort-items-by"/>
 			<Menu name="Date Modified" check-group="sort-items-by"/>
 		</Menu>
+		<Menu type="divider"/>
 		<Menu name="Toggle&#8230;" for="view-toggles">
-			<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons"/>
+			<Menu name="Slim Sidebar" toggle_false="Standard Sidebar" click="toggle-sidebar-icons" disabled="1"/>
 			<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
 			<Menu name="Hide Status Bar" toggle_false="Show Status Bar" click="toggle-statusbar-view"/>
 			<Menu type="divider"/>

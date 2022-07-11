@@ -66,22 +66,22 @@
 
 			// menu events
 			case "toggle-sidebar-view":
-				el = Spawn.find(`layout`);
+				el = Spawn.find("layout");
 				el.toggleClass("hide-sidebar", el.hasClass("hide-sidebar"));
 				return el.hasClass("hide-sidebar") ? "toggle_false" : "toggle_true";
 			case "toggle-statusbar-view":
-				el = Spawn.find(`layout`);
+				el = Spawn.find("layout");
 				el.toggleClass("hide-statusbar", el.hasClass("hide-statusbar"));
 				// notify root object
 				Spawn.state("statusbar", el.hasClass("hide-statusbar"));
 				return el.hasClass("hide-statusbar") ? "toggle_false" : "toggle_true";
 			case "toggle-toolbar":
-			case "toggle-statusbar-view":
-				el = Spawn.find(`layout`);
+				el = Spawn.find("layout");
 				el.toggleClass("hide-toolbar", el.hasClass("hide-toolbar"));
 				// notify root object
 				Spawn.state("toolbar", el.hasClass("hide-toolbar"));
-				return el.hasClass("hide-toolbar") ? "toggle_false" : "toggle_true";
+
+				return el.hasClass("hide-toolbar") ? "toggle_true" : "toggle_false";
 			case "toggle-sidebar-icons":
 				break;
 			
