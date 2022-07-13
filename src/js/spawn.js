@@ -17,8 +17,11 @@
 		switch (event.type) {
 			// system events
 			case "spawn.open":
-				// history stack
-				Spawn.data.history = new window.History;
+				Spawn.data.tabs = new Tabs(Spawn);
+				// name of directory
+				value = window.settings.getItem("finder-default-path");
+				value = window.path.dirname(value);
+				Spawn.data.tabs.add(value);
 				// render sidebar
 				window.render({
 					template: "sys:fs-sideBar",
@@ -36,7 +39,12 @@
 
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
 				// setTimeout(() => Spawn.dialog.open({ txt: item => console.log(item) }), 500);
-				setTimeout(() => Self.dispatch({ ...event, type: "new-tab" }), 500);
+				// setTimeout(() => Self.dispatch({ ...event, type: "new-tab", id: 2 }), 500);
+				// setTimeout(() => {
+				// 	// since have setting "allowTabs", default tab needs to be added
+				// 	let tmp = Spawn.tabs.add("test", "finder-"+ Date.now());
+				// 	console.log(tmp);
+				// }, 3500);
 				break;
 			case "spawn.close":
 				break;
@@ -60,7 +68,7 @@
 					state.columns = Spawn.find("content > div .column_").map(e => "/fs"+ e.getAttribute("data-path"));
 					if (!state.columns.length) state.columns = event.columns || [state.cwd];
 				}
-				Spawn.data.history.push(state);
+				Spawn.data.tabs.historyPush(state);
 				// console.log(state);
 				// update view state
 				Self.setViewState(Spawn, event.render);
@@ -87,15 +95,29 @@
 			case "toggle-sidebar-icons":
 				break;
 			
+			// tab related events
+			case "new-spawn":
+				console.log(event);
+				break;
+			case "new-tab":
+				// name of directory
+				value = window.settings.getItem("finder-default-path");
+				value = window.path.dirname(value);
+				Spawn.data.tabs.add(value);
+				break;
+			case "tab-clicked":
+			case "tab-close":
+				console.log(event);
+				break;
+			
 			// custom events
 			case "new-spawn":
 			case "new-tab":
-				Spawn.tabs.add("test", "test-1");
-				Spawn.tabs.add("test 2", "test-2");
+				// Spawn.tabs.add("test", "test-"+ event.id);
 				break;
 			case "history-go":
-				if (event.arg === "-1") Spawn.data.history.goBack();
-				else Spawn.data.history.goForward();
+				// forward event to "Tabs"
+				Spawn.data.tabs.historyGo(event.arg);
 				// update view state
 				Self.setViewState(Spawn, true);
 				break;
@@ -112,11 +134,11 @@
 				break;
 			case "select-file-view":
 				// get current state
-				state = Spawn.data.history.current;
+				state = Spawn.data.tabs.history.current;
 				// handles file selected
 				if (state && state.kind) {
 					let columns = state.columns;
-					state = Spawn.data.history.stack[Spawn.data.history.index-1];
+					state = Spawn.data.tabs.history.stack[Spawn.data.tabs.history.index-1];
 					state.columns = columns;
 				}
 				// forward event
@@ -137,7 +159,7 @@
 	},
 	setViewState(Spawn, render) {
 		let target = Spawn.find("content > div"),
-			history = Spawn.data.history,
+			history = Spawn.data.tabs.history,
 			state = history.current,
 			path = state.cwd,
 			firstPath = state.columns ? state.columns[0] : path;

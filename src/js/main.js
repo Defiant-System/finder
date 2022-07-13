@@ -1,6 +1,9 @@
 
 let disk;
 
+@import "classes/tabs.js"
+
+
 const finder = {
 	async init() {
 		// init all sub-objects
