@@ -4,7 +4,7 @@
 {
 	init() {
 		// temp
-		window.settings.setItem("finder-file-view", "columns");
+		// window.settings.setItem("finder-file-view", "columns");
 	},
 	dispatch(event) {
 		let APP = finder,
@@ -17,11 +17,9 @@
 		switch (event.type) {
 			// system events
 			case "spawn.open":
-				Spawn.data.tabs = new Tabs(Spawn);
-				// name of directory
-				value = window.settings.getItem("finder-default-path");
-				value = window.path.dirname(value);
-				Spawn.data.tabs.add(value);
+				Spawn.data.tabs = new Tabs(Self, Spawn);
+				// auto add first base "tab"
+				Self.dispatch({ ...event, type: "new-tab" });
 				// render sidebar
 				window.render({
 					template: "sys:fs-sideBar",
@@ -32,19 +30,15 @@
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
 				// temp
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(7)`).trigger("click"), 200);
+				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-click="history-go"]`).trigger("click"), 1200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-menu="toolbar-context"]`).trigger("mousedown"), 200);
 				// setTimeout(() => Spawn.dialog.open({ txt: item => console.log(item) }), 500);
-				// setTimeout(() => Self.dispatch({ ...event, type: "new-tab", id: 2 }), 500);
-				// setTimeout(() => {
-				// 	// since have setting "allowTabs", default tab needs to be added
-				// 	let tmp = Spawn.tabs.add("test", "finder-"+ Date.now());
-				// 	console.log(tmp);
-				// }, 3500);
+				setTimeout(() => Self.dispatch({ ...event, type: "new-tab" }), 500);
+				
 				break;
 			case "spawn.close":
 				break;
@@ -69,9 +63,8 @@
 					if (!state.columns.length) state.columns = event.columns || [state.cwd];
 				}
 				Spawn.data.tabs.historyPush(state);
-				// console.log(state);
 				// update view state
-				Self.setViewState(Spawn, event.render);
+				Spawn.data.tabs.setViewState(event.render);
 				break;
 
 			// menu events
@@ -101,25 +94,22 @@
 				break;
 			case "new-tab":
 				// name of directory
-				value = window.settings.getItem("finder-default-path");
-				value = window.path.dirname(value);
-				Spawn.data.tabs.add(value);
+				Spawn.data.tabs.add();
 				break;
 			case "tab-clicked":
+				value = event.el.data("id");
+				Spawn.data.tabs.focus(value);
+				break;
 			case "tab-close":
 				console.log(event);
 				break;
 			
 			// custom events
-			case "new-spawn":
-			case "new-tab":
-				// Spawn.tabs.add("test", "test-"+ event.id);
-				break;
 			case "history-go":
 				// forward event to "Tabs"
 				Spawn.data.tabs.historyGo(event.arg);
 				// update view state
-				Self.setViewState(Spawn, true);
+				Spawn.data.tabs.setViewState(true);
 				break;
 			case "get-sidebar-item":
 				// empty contents
@@ -156,82 +146,5 @@
 				Spawn.find("content > div").css({ "--icon-size": `${event.value}px` });
 				break;
 		}
-	},
-	setViewState(Spawn, render) {
-		let target = Spawn.find("content > div"),
-			history = Spawn.data.tabs.history,
-			state = history.current,
-			path = state.cwd,
-			firstPath = state.columns ? state.columns[0] : path;
-
-		// update window title
-		Spawn.title = window.path.dirname(path);
-		// update sidebar "active"
-		Spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
-		Spawn.find(`sidebar li[data-path="${firstPath}"]`).addClass("sidebar-active_");
-		// toolbar UI update
-		Spawn.find(`[data-click="history-go"][data-arg="-1"]`).toggleClass("tool-disabled_", history.canGoBack);
-		Spawn.find(`[data-click="history-go"][data-arg="1"]`).toggleClass("tool-disabled_", history.canGoForward);
-		// update setting
-		window.settings.setItem("finder-file-view", state.view);
-		// update toolbar
-		let tool = Spawn.find(`[data-arg='${state.view}']`);
-		tool.parent().find(".tool-active_").removeClass("tool-active_");
-		tool.addClass("tool-active_");
-
-		if (render) {
-			if (state.view === "columns") {
-				// remove redundant columns
-				target.find(`.column_`).map(el => {
-					if (!state.columns.includes(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
-				});
-				// empty contents if not already columns-view
-				if (!target.hasClass("fs-columns_")) target.html("");
-				// add rool element for columns, if missing
-				if (!target.find(".fs-root_").length) {
-					target.append(`<div class="fs-root_"></div>`);
-				}
-				// render missing columns
-				state.columns.map(path => {
-					let column = Spawn.find(`content > div .column_[data-path="${path}"]`),
-						name = path.slice(path.lastIndexOf("/") + 1),
-						append = Spawn.find("content > div .fs-root_"),
-						left;
-					if (!column.length) {
-						column = window.render({
-							path,
-							append: append.length ? append : target,
-							template: "sys:fs-fileView",
-						});
-						// calculate left
-						left = column.prop("offsetLeft") + column.prop("offsetWidth") - target.prop("offsetWidth");
-						target.prop({"scrollLeft": left});
-
-						column = column.prev(".column_");
-						if (column.length) {
-							column.find(`.file-name_:contains("${name}")`).parent().addClass("file-active_");
-						}
-					}
-				});
-			} else {
-				// render content
-				window.render({ template: "sys:fs-fileView", target, path });
-			}
-		}
-		// clean up
-		if (state.kind === "_dir") delete state.kind;
-		// update status-bar
-		let cEl = target.find(".column_:last"),
-			len = cEl.find(".ant-file_").length,
-			str = `${len} items, ${disk.avail} available`;
-		if (state.kind) {
-			cEl = target.find(".column_:nth-last-child(2)");
-			len = cEl.find(".ant-file_").length;
-			let selected = state.kind === "_dir" ? cEl.find(".ant-file_.file-active").length : 1;
-			str = `${selected} of ${len} selected, ${disk.avail} available`;
-		}
-		Spawn.statusBar.find(".content").text(str);
-		// show status-bar slider only for icons view
-		Spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
 	}
 }
