@@ -7,29 +7,30 @@ class Tabs {
 		this._active = null;
 	}
 
-	add(p) {
-		let path = p || window.settings.getItem("finder-default-path"),
-			name = window.path.dirname(path),
-			tId = "finder-"+ Date.now(),
+	add(opt) {
+		let isObj = typeof opt === "object",
+			cwd = isObj ? opt.path : opt || window.settings.getItem("finder-default-path"),
+			view = isObj ? opt.view : "icons" || window.settings.getItem("finder-file-view"),
+			name = window.path.dirname(cwd),
+			tId = "f"+ Date.now(),
 			el = this._spawn.tabs.add(name, tId),
-			history = new window.History;
-
-		this._stack[tId] = { el, history };
-		if (this.length > 1) {
-			this._spawn.find("content > div").html("");
-			// render path
-			this._parent.dispatch({
-				type: "fs-view-render",
-				spawn: this._spawn,
-				render: true,
-				path,
-			});
+			history = new window.History,
+			state = { cwd, view };
+		
+		if (isObj) {
+			if (opt.kind) state.kind = opt.kind;
+			if (opt.columns) state.columns = opt.columns;
 		}
-		this.focus(tId);
-	}
+		if (state.view === "columns") {
+			state.columns = this._spawn.find("content > div .column_").map(e => "/fs"+ e.getAttribute("data-path"));
+			if (!state.columns.length) state.columns = opt.columns || [state.cwd];
+		}
 
-	get length() {
-		return Object.keys(this._stack).length;
+		// push state to history
+		history.push(state);
+		// save reference to tab
+		this._stack[tId] = { el, history };
+		this.focus(tId);
 	}
 
 	remove() {
@@ -40,7 +41,12 @@ class Tabs {
 	focus(tId) {
 		// reference to active tab
 		this._active = this._stack[tId];
-		console.log("render stuff");
+		// render view
+		this.setViewState(true);
+	}
+
+	get length() {
+		return Object.keys(this._stack).length;
 	}
 
 	get history() {
@@ -49,11 +55,16 @@ class Tabs {
 
 	historyPush(state) {
 		this._active.history.push(state);
+		// render view
+		this.setViewState(true);
 	}
 
 	historyGo(step) {
 		if (step === "-1") this._active.history.goBack();
 		else this._active.history.goForward();
+
+		// render view
+		this.setViewState(true);
 	}
 
 	setViewState(render) {
