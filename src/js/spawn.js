@@ -37,6 +37,16 @@
 				Self.dispatch({ ...event, type: "new-tab" });
 				break;
 
+			// this event is passed from filesystem event handler
+			case "fs-view-render":
+				state = {
+					...Spawn.data.tabs.history.current,
+					cwd: event.path,
+					render: false,
+				};
+				Spawn.data.tabs.historyPush(state);
+				break;
+
 			// tab related events
 			case "new-tab":
 				// name of directory
@@ -49,7 +59,10 @@
 				break;
 			case "select-file-view":
 				// copy current state
-				state = { ...Spawn.data.tabs.history.current };
+				state = {
+					...Spawn.data.tabs.history.current,
+					render: true,
+				};
 				// handles file selected
 				if (state && state.kind) {
 					let columns = state.columns;
@@ -61,6 +74,18 @@
 				
 				Spawn.data.tabs.historyPush(state);
 				return true;
+
+			// custom events
+			case "get-sidebar-item":
+				Spawn.find("content > div").html("");
+				// copy current state
+				state = {
+					...Spawn.data.tabs.history.current,
+					cwd: event.arg,
+					render: true,
+				};
+				Spawn.data.tabs.historyPush(state);
+				break;
 		}
 	}
 }

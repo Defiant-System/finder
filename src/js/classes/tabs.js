@@ -5,12 +5,14 @@ class Tabs {
 		this._spawn = spawn;
 		this._stack = {};
 		this._active = null;
+
+		this._target = this._spawn.find("content > div");
 	}
 
 	add(opt) {
 		let isObj = typeof opt === "object",
 			cwd = isObj ? opt.path : opt || window.settings.getItem("finder-default-path"),
-			view = isObj ? opt.view : "icons" || window.settings.getItem("finder-file-view"),
+			view = isObj ? opt.view : window.settings.getItem("finder-file-view"),
 			name = window.path.dirname(cwd),
 			tId = "f"+ Date.now(),
 			el = this._spawn.tabs.add(name, tId),
@@ -22,7 +24,7 @@ class Tabs {
 			if (opt.columns) state.columns = opt.columns;
 		}
 		if (state.view === "columns") {
-			state.columns = this._spawn.find("content > div .column_").map(e => "/fs"+ e.getAttribute("data-path"));
+			state.columns = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
 			if (!state.columns.length) state.columns = opt.columns || [state.cwd];
 		}
 
@@ -54,9 +56,13 @@ class Tabs {
 	}
 
 	historyPush(state) {
+		if (state.view === "columns") {
+			state.columns = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
+			if (!state.columns.length) state.columns = [state.cwd];
+		}
 		this._active.history.push(state);
 		// render view
-		this.setViewState(true);
+		this.setViewState(state.render);
 	}
 
 	historyGo(step) {
@@ -68,7 +74,7 @@ class Tabs {
 	}
 
 	setViewState(render) {
-		let target = this._spawn.find("content > div"),
+		let target = this._target,
 			history = this._active.history,
 			state = history.current,
 			path = state.cwd,
@@ -101,8 +107,9 @@ class Tabs {
 				if (!target.find(".fs-root_").length) {
 					target.append(`<div class="fs-root_"></div>`);
 				}
+				let cols = state.columns || [state.cwd];
 				// render missing columns
-				state.columns.map(path => {
+				cols.map(path => {
 					let column = this._spawn.find(`content > div .column_[data-path="${path}"]`),
 						name = path.slice(path.lastIndexOf("/") + 1),
 						append = this._spawn.find("content > div .fs-root_"),
