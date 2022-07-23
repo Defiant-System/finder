@@ -57,8 +57,8 @@ class Tabs {
 
 	historyPush(state) {
 		if (state.view === "columns") {
-			state.columns = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
-			if (!state.columns.length) state.columns = [state.cwd];
+			let cols = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
+			state.columns = cols || state.columns || [state.cwd];
 		}
 		this._active.history.push(state);
 		// render view

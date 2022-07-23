@@ -3,7 +3,8 @@
 
 {
 	init() {
-		
+		// temp
+		window.settings.setItem("finder-file-view", "icons");
 	},
 	dispatch(event) {
 		let APP = finder,
@@ -26,6 +27,11 @@
 				value = window.settings.getItem("finder-icon-size");
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
+
+				// temp
+				// setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
+				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
 				break;
 			case "spawn.init":
 				value = window.settings.getItem("finder-default-path");
@@ -33,8 +39,13 @@
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
 			case "open.file":
-				// auto add first base "tab"
-				Self.dispatch({ ...event, type: "new-tab" });
+				if (event.tab) {
+					// open path in new tab
+					console.log(event);
+				} else {
+					// auto add first base "tab"
+					Self.dispatch({ ...event, type: "new-tab" });
+				}
 				break;
 
 			// this event is passed from filesystem event handler
@@ -44,6 +55,7 @@
 					cwd: event.path,
 					render: false,
 				};
+				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				break;
 
@@ -55,23 +67,17 @@
 
 			// toolbar events
 			case "history-go":
+				// active tab history stack
 				Spawn.data.tabs.historyGo(event.arg);
 				break;
 			case "select-file-view":
 				// copy current state
 				state = {
 					...Spawn.data.tabs.history.current,
+					view: event.arg,
 					render: true,
 				};
-				// handles file selected
-				if (state && state.kind) {
-					let columns = state.columns;
-					state = Spawn.data.tabs.history.stack[Spawn.data.tabs.history.index-1];
-					state.columns = columns;
-				}
-				// add view to state
-				state.view = event.arg;
-				
+				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				return true;
 
@@ -84,6 +90,7 @@
 					cwd: event.arg,
 					render: true,
 				};
+				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				break;
 		}
