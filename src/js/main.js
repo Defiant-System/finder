@@ -18,7 +18,6 @@ const finder = {
 		let Self = finder,
 			spawn,
 			el;
-		// console.log(event);
 		// proxy spawn events
 		if (event.spawn) return Self.spawn.dispatch(event);
 
@@ -27,6 +26,8 @@ const finder = {
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, type: "spawn.init", spawn });
 				break;
+			case "window.spawn":
+				return window.open(event.name);
 			case "open.file":
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, spawn });

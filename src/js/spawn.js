@@ -32,6 +32,17 @@
 				// setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
+
+				// setTimeout(() => Self.dispatch({
+				// 	base: "Experiments",
+				// 	dir: "/fs/Documents/",
+				// 	kind: "_dir",
+				// 	// open: ƒ async open(opt)
+				// 	path: "/fs/Documents/Experiments/",
+				// 	spawn: Spawn,
+				// 	tab: true,
+				// 	type: "open.file",
+				// }), 500);
 				break;
 			case "spawn.init":
 				value = window.settings.getItem("finder-default-path");
@@ -39,13 +50,10 @@
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
 			case "open.file":
-				if (event.tab) {
-					// open path in new tab
-					console.log(event);
-				} else {
+				event.files.map(p => {
 					// auto add first base "tab"
-					Self.dispatch({ ...event, type: "new-tab" });
-				}
+					Self.dispatch({ ...event, path: p, type: "new-tab" });
+				});
 				break;
 
 			// this event is passed from filesystem event handler
@@ -92,6 +100,10 @@
 				};
 				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
+				break;
+			case "set-icon-size":
+				window.settings.setItem("finder-icon-size", +event.value);
+				Spawn.find("content > div").css({ "--icon-size": `${event.value}px` });
 				break;
 		}
 	}
