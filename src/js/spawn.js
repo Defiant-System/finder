@@ -72,6 +72,9 @@
 				// name of directory
 				Spawn.data.tabs.add(event.path);
 				break;
+			case "tab-clicked":
+				Spawn.data.tabs.focus(event.el.data("id"));
+				break;
 
 			// toolbar events
 			case "history-go":
