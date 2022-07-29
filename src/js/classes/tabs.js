@@ -9,6 +9,10 @@ class Tabs {
 		this._target = this._spawn.find("content > div");
 	}
 
+	purgeBody() {
+		this._target.html("");
+	}
+
 	add(opt) {
 		let isObj = typeof opt === "object",
 			cwd = isObj ? opt.path : opt || window.settings.getItem("finder-default-path"),
@@ -27,7 +31,6 @@ class Tabs {
 			state.columns = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
 			if (!state.columns.length) state.columns = opt.columns || [state.cwd];
 		}
-
 		// push state to history
 		history.push(state);
 		// save reference to tab

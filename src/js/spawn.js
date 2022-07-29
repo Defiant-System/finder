@@ -50,8 +50,7 @@
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
 			case "open.file":
-				value = event.files || [event.path];
-				value.map(p => {
+				(event.files || [event.path]).map(p => {
 					// auto add first base "tab"
 					Self.dispatch({ ...event, path: p, type: "new-tab" });
 				});
@@ -70,6 +69,8 @@
 
 			// tab related events
 			case "new-tab":
+				// purge "tab body" contents
+				Spawn.data.tabs.purgeBody();
 				// name of directory
 				Spawn.data.tabs.add(event.path);
 				break;
@@ -95,7 +96,8 @@
 
 			// custom events
 			case "get-sidebar-item":
-				Spawn.find("content > div").html("");
+				// purge "tab body" contents
+				Spawn.data.tabs.purgeBody();
 				// copy current state
 				state = {
 					...Spawn.data.tabs.history.current,
