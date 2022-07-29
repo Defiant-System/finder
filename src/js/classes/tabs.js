@@ -78,8 +78,11 @@ class Tabs {
 			history = this._active.history,
 			state = history.current,
 			path = state.cwd,
-			firstPath = state.columns ? state.columns[0] : path;
-
+			firstPath = state.columns && state.columns[0] ? state.columns[0] : path;
+		// fixes ~
+		if (firstPath && firstPath.startsWith("~/")) {
+			firstPath = `/fs/${firstPath.slice(2)}`;
+		}
 		// update window title
 		this._spawn.title = window.path.dirname(path);
 		// update sidebar "active"
@@ -90,6 +93,7 @@ class Tabs {
 		this._spawn.find(`[data-click="history-go"][data-arg="1"]`).toggleClass("tool-disabled_", history.canGoForward);
 		// update setting
 		window.settings.setItem("finder-file-view", state.view);
+
 		// update toolbar
 		let tool = this._spawn.find(`[data-arg='${state.view}']`);
 		tool.parent().find(".tool-active_").removeClass("tool-active_");
@@ -107,7 +111,7 @@ class Tabs {
 				if (!target.find(".fs-root_").length) {
 					target.append(`<div class="fs-root_"></div>`);
 				}
-				let cols = state.columns || [state.cwd];
+				let cols = state.columns.length ? state.columns : [state.cwd];
 				// render missing columns
 				cols.map(path => {
 					let column = this._spawn.find(`content > div .column_[data-path="${path}"]`),

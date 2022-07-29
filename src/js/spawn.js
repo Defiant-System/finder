@@ -4,7 +4,7 @@
 {
 	init() {
 		// temp
-		window.settings.setItem("finder-file-view", "icons");
+		// window.settings.setItem("finder-file-view", "icons");
 	},
 	dispatch(event) {
 		let APP = finder,
@@ -50,7 +50,8 @@
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
 			case "open.file":
-				event.files.map(p => {
+				value = event.files || [event.path];
+				value.map(p => {
 					// auto add first base "tab"
 					Self.dispatch({ ...event, path: p, type: "new-tab" });
 				});
