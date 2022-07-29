@@ -69,7 +69,8 @@
 				// purge "tab body" contents
 				Spawn.data.tabs.purgeBody();
 				// name of directory
-				Spawn.data.tabs.add(event.path);
+				value = event.path || window.settings.getItem("finder-default-path");
+				Spawn.data.tabs.add(value);
 				break;
 			case "tab-clicked":
 				Spawn.data.tabs.focus(event.el.data("id"));

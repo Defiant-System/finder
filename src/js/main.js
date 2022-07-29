@@ -37,7 +37,7 @@ const finder = {
 				break;
 		}
 	},
-	spawn: @import "spawn.js",
+	spawn: @import "modules/spawn.js",
 };
 
 window.exports = finder;
