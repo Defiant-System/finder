@@ -59,9 +59,9 @@ class Tabs {
 	}
 
 	historyPush(state) {
-		if (state.view === "columns") {
+		if (state.view === "columns" && this._target.hasClass("view-columns_")) {
 			let cols = this._target.find(".column_").map(e => "/fs"+ e.getAttribute("data-path"));
-			state.columns = cols || state.columns || [state.cwd];
+			state.columns = cols || [state.cwd];
 		}
 		this._active.history.push(state);
 		// render view
@@ -71,9 +71,10 @@ class Tabs {
 	historyGo(step) {
 		if (step === "-1") this._active.history.goBack();
 		else this._active.history.goForward();
-
 		// render view
 		this.setViewState(true);
+
+		// console.log( this._active.history.current );
 	}
 
 	setViewState(render) {
@@ -101,6 +102,11 @@ class Tabs {
 		let tool = this._spawn.find(`[data-arg='${state.view}']`);
 		tool.parent().find(".tool-active_").removeClass("tool-active_");
 		tool.addClass("tool-active_");
+
+		if (!state.kind) {
+			// set path as default path
+			window.settings.setItem("finder-default-path", state.cwd);
+		}
 
 		if (render) {
 			if (state.view === "columns") {

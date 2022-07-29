@@ -4,14 +4,17 @@
 {
 	init() {
 		// temp
-		// window.settings.setItem("finder-file-view", "icons");
+		window.settings.setItem("finder-file-view", "columns");
 	},
 	dispatch(event) {
 		let APP = finder,
 			Self = APP.spawn,
 			Spawn = event.spawn,
+			columns,
 			state,
 			value,
+			tabs,
+			curr,
 			el;
 		// console.log(event);
 		switch (event.type) {
@@ -29,20 +32,12 @@
 				Spawn.find(".icon-resizer").val(value);
 
 				// temp
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 200);
+				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 100);
+				setTimeout(() => Spawn.find(`.ant-file_:nth(16)`).trigger("click"), 200);
+				setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="-1"]`).trigger("click"), 500);
+				
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
-
-				// setTimeout(() => Self.dispatch({
-				// 	base: "Experiments",
-				// 	dir: "/fs/Documents/",
-				// 	kind: "_dir",
-				// 	// open: ƒ async open(opt)
-				// 	path: "/fs/Documents/Experiments/",
-				// 	spawn: Spawn,
-				// 	tab: true,
-				// 	type: "open.file",
-				// }), 500);
 				break;
 			case "spawn.init":
 				value = window.settings.getItem("finder-default-path");
@@ -63,6 +58,8 @@
 					cwd: event.path,
 					render: false,
 				};
+				// add kind to state object
+				if (event.kind) state.kind = event.kind;
 				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				break;
@@ -84,12 +81,18 @@
 				Spawn.data.tabs.historyGo(event.arg);
 				break;
 			case "select-file-view":
+				curr = Spawn.data.tabs.history.current;
+				if (curr.columns) columns = curr.columns;
+				if (curr && curr.kind) {
+					curr = Spawn.data.tabs.history.stack[Spawn.data.tabs.history.index-1];
+				}
 				// copy current state
 				state = {
-					...Spawn.data.tabs.history.current,
+					...curr,
 					view: event.arg,
 					render: true,
 				};
+				if (columns) state.columns = columns;
 				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				return true;
