@@ -45,9 +45,9 @@
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
 			case "open.file":
-				(event.files || [event]).map(f => {
+				(event.files || [event]).map(file => {
 					// auto add first base "tab"
-					Self.dispatch({ ...event, path: f.path, type: "new-tab" });
+					Self.dispatch({ ...event, path: file.path, type: "new-tab" });
 				});
 				break;
 

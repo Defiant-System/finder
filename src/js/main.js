@@ -26,6 +26,10 @@ const finder = {
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, type: "spawn.init", spawn });
 				break;
+			case "open.file":
+				spawn = window.open("spawn");
+				Self.spawn.dispatch({ ...event, spawn });
+				break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
 				break;
