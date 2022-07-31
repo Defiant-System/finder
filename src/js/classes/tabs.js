@@ -38,7 +38,7 @@ class Tabs {
 		this.focus(tId);
 	}
 
-	remove() {
+	remove(tId) {
 		this._stack[tId] = false;
 		delete this._stack[tId];
 	}

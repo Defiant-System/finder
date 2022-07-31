@@ -75,6 +75,9 @@
 			case "tab-clicked":
 				Spawn.data.tabs.focus(event.el.data("id"));
 				break;
+			case "tab-close":
+				Spawn.data.tabs.remove(event.el.data("id"));
+				break;
 
 			// toolbar events
 			case "history-go":
