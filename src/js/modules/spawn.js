@@ -4,7 +4,7 @@
 {
 	init() {
 		// temp
-		window.settings.setItem("finder-file-view", "columns");
+		// window.settings.setItem("finder-file-view", "columns");
 	},
 	dispatch(event) {
 		let APP = finder,
