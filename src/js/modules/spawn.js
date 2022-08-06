@@ -97,6 +97,8 @@
 					render: true,
 				};
 				if (columns) state.columns = columns;
+				// update setting
+				window.settings.setItem("finder-file-view", state.view);
 				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
 				return true;

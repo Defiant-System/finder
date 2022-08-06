@@ -95,8 +95,6 @@ class Tabs {
 		// toolbar UI update
 		this._spawn.find(`[data-click="history-go"][data-arg="-1"]`).toggleClass("tool-disabled_", history.canGoBack);
 		this._spawn.find(`[data-click="history-go"][data-arg="1"]`).toggleClass("tool-disabled_", history.canGoForward);
-		// update setting
-		window.settings.setItem("finder-file-view", state.view);
 
 		// update toolbar
 		let tool = this._spawn.find(`[data-arg='${state.view}']`);
@@ -105,7 +103,7 @@ class Tabs {
 
 		if (!state.kind) {
 			// set path as default path
-			window.settings.setItem("finder-default-path", state.cwd);
+			// window.settings.setItem("finder-default-path", state.cwd);
 		}
 
 		if (render) {
