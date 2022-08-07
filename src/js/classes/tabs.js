@@ -34,8 +34,17 @@ class Tabs {
 		// push state to history
 		history.push(state);
 		// save reference to tab
-		this._stack[tId] = { el, history };
+		this._stack[tId] = { tId, el, history };
 		this.focus(tId);
+	}
+
+	merge(ref) {
+		let tId = ref.tId,
+			cwd = ref.history.current.cwd,
+			name = window.path.dirname(cwd),
+			el = this._spawn.tabs.add(name, tId, true),
+			history = ref.history;
+		this._stack[tId] = { el, history };
 	}
 
 	remove(tId) {
@@ -73,7 +82,6 @@ class Tabs {
 		else this._active.history.goForward();
 		// render view
 		this.setViewState(true);
-
 		// console.log( this._active.history.current );
 	}
 

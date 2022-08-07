@@ -2,6 +2,9 @@
 	<Menu name="Finder">
 		<Menu name="About Finder" shell="win -a"/>
 		<Menu type="divider"/>
+		<Menu name="Close Window" click="close-spawn" hotkey="alt+shift+w"/>
+		<Menu name="Close Tab" click="close-tab" hotkey="alt+w"/>
+		<Menu type="divider"/>
 		<Menu name="Add Cloud Storage" shell="win -o preferences cloudStorage"/>
 		<Menu name="Emptry Trash"/>
 		<Menu type="divider"/>
@@ -24,12 +27,12 @@
 	<Menu name="Window">
 		<Menu name="New Finder Window" click="new-spawn" hotkey="alt+n"/>
 		<Menu name="New Tab" click="new-tab" hotkey="alt+t"/>
+		<Menu name="Merge All Windows" click="merge-all-windows" hotkey="alt+c"/>
 		<Menu type="divider"/>
 		<Menu name="Minimize" shell="win -s min"/>
 		<Menu name="Maximize" shell="win -s max"/>
 		<Menu type="divider"/>
-		<Menu name="Close Tab" click="close-active-tab" hotkey="alt+w"/>
-		<Menu name="Close Window" click="close-spawn" hotkey="shift+alt+w"/>
+		<Menu name="Close Window" shell="win -c"/>
 	</Menu>
 	<Menu name="Help">
 		<Menu name="Send Finder Feedback"/>

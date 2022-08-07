@@ -103,6 +103,33 @@
 				Spawn.data.tabs.historyPush(state);
 				return true;
 
+			// from menubar
+			case "new-spawn":
+				APP.dispatch({ type: "new-spawn" });
+				break;
+			case "merge-all-windows":
+				Spawn.siblings.map(oSpawn => {
+					for (let key in oSpawn.data.tabs._stack) {
+						let ref = oSpawn.data.tabs._stack[key];
+						Spawn.data.tabs.merge(ref);
+					}
+					// close sibling spawn
+					oSpawn.close();
+				});
+				break;
+			case "close-tab":
+				value = Spawn.data.tabs.length;
+				if (value > 1) {
+					Spawn.data.tabs._active.el.find(`[sys-click]`).trigger("click");
+				} else if (value === 1) {
+					Self.dispatch({ ...event, type: "close-spawn" });
+				}
+				break;
+			case "close-spawn":
+				// system close window / spawn
+				defiant.shell("win -c");
+				break;
+
 			// custom events
 			case "get-sidebar-item":
 				// purge "tab body" contents

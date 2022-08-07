@@ -22,6 +22,7 @@ const finder = {
 		if (event.spawn) return Self.spawn.dispatch(event);
 
 		switch (event.type) {
+			case "new-spawn":
 			case "window.init":
 				spawn = window.open("spawn");
 				Self.spawn.dispatch({ ...event, type: "spawn.init", spawn });
