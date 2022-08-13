@@ -38,9 +38,13 @@ const finder = {
 				(event.files || [event]).map(file => {
 					let dim = {
 							top: (infoIndex.y * 30) + 50,
-							left: (infoIndex.x * 320) + 30,
+							left: (infoIndex.x * 50) + 30,
 						};
 					infoIndex.x++;
+					if (infoIndex.x > 7) {
+						infoIndex.x = 0;
+						infoIndex.y++;
+					}
 					Self.dispatch({ type: "new", id: "info", file, dim });
 				});
 				break;
