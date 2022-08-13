@@ -15,11 +15,9 @@
 		// console.log(event);
 		switch (event.type) {
 			// system events
-			case "spawn.open":
+			case "spawn.init":
 				// window height should obey contents height
 				Spawn.height = "auto";
-				break;
-			case "spawn.init":
 				// spawn title
 				Spawn.title = event.file.base +" Info";
 				// render content
@@ -30,17 +28,6 @@
 				});
 				break;
 			// custom events
-			case "open.file":
-				(event.files || [event]).map(file => {
-					let dim = {
-							top: (infoIndex.y * 30) + 50,
-							left: (infoIndex.x * 320) + 530,
-						};
-					infoIndex.x++;
-					APP.dispatch({ type: "new", id: "info", file, dim });
-				});
-				break;
-
 			case "toggle-wrapper":
 				event.el.toggleClass("expanded", event.el.hasClass("expanded"));
 				break;

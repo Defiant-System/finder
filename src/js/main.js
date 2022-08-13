@@ -29,11 +29,20 @@ const finder = {
 
 		switch (event.type) {
 			case "new":
-			// case "window.init":
 				name = event.id || "spawn";
 				dim = event.dim || null;
 				spawn = window.open(name, dim);
 				Self[name].dispatch({ ...event, type: "spawn.init", spawn });
+				break;
+			case "file.info":
+				(event.files || [event]).map(file => {
+					let dim = {
+							top: (infoIndex.y * 30) + 50,
+							left: (infoIndex.x * 320) + 30,
+						};
+					infoIndex.x++;
+					Self.dispatch({ type: "new", id: "info", file, dim });
+				});
 				break;
 			// case "open.file":
 			// 	spawn = window.open("spawn");
