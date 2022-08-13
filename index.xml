@@ -7,6 +7,8 @@
 		<meta name="repository" value="https://github.com/Defiant-System/finder"/>
 		<meta name="script" value="src/js/main.js"/>
 		<meta name="icons" value="src/svg/icons.svg"/>
+		<meta name="xsl" value="src/partials/templates.xsl"/>
+		<meta name="spawn" value="src/partials/info.xml"/>
 		<meta name="spawn" value="src/partials/spawn.xml"/>
 
 		@import "src/partials/menubar.xml"

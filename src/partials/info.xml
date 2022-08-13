@@ -1,0 +1,14 @@
+<Spawn id="info">
+	<Head>
+		<meta name="title" value="Filesystem Item Info"/>
+		<meta name="width" value="300"/>
+		<meta name="height" value="493"/>
+		<meta name="top" value="50"/>
+		<meta name="left" value="50"/>
+		<meta name="minimize"/>
+		<meta name="maximize" value="disabled"/>
+		<meta name="resize" value="disabled"/>
+		<meta name="style" value="../css/info-spawn.less"/>
+		<meta name="content" value="info-content.htm"/>
+	</Head>
+</Spawn>

@@ -112,7 +112,7 @@
 
 			// from menubar
 			case "new-spawn":
-				APP.dispatch({ type: "new-spawn" });
+				APP.dispatch({ type: "new", id: "spawn" });
 				break;
 			case "merge-all-windows":
 				Spawn.siblings.map(oSpawn => {

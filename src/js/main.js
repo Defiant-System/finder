@@ -1,5 +1,6 @@
 
 let disk;
+let infoIndex = { x: 0, y: 0 };
 
 @import "classes/tabs.js"
 
@@ -17,25 +18,33 @@ const finder = {
 	dispatch(event) {
 		let Self = finder,
 			spawn,
+			name,
+			dim,
 			el;
 		// proxy spawn events
-		if (event.spawn) return Self.spawn.dispatch(event);
+		if (event.spawn) {
+			name = event.spawn.el.data("id").slice("finder-".length);
+			return Self[name].dispatch(event);
+		}
 
 		switch (event.type) {
-			case "new-spawn":
-			case "window.init":
-				spawn = window.open("spawn");
-				Self.spawn.dispatch({ ...event, type: "spawn.init", spawn });
+			case "new":
+			// case "window.init":
+				name = event.id || "spawn";
+				dim = event.dim || null;
+				spawn = window.open(name, dim);
+				Self[name].dispatch({ ...event, type: "spawn.init", spawn });
 				break;
-			case "open.file":
-				spawn = window.open("spawn");
-				Self.spawn.dispatch({ ...event, spawn });
-				break;
+			// case "open.file":
+			// 	spawn = window.open("spawn");
+			// 	Self.spawn.dispatch({ ...event, spawn });
+			// 	break;
 			case "open-help":
 				defiant.shell("fs -u '~/help/index.md'");
 				break;
 		}
 	},
+	info: @import "modules/info.js",
 	spawn: @import "modules/spawn.js",
 };
 
