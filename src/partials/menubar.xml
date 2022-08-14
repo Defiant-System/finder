@@ -2,6 +2,8 @@
 	<Menu name="Finder">
 		<Menu name="About Finder" shell="win -a"/>
 		<Menu type="divider"/>
+		<Menu name="Get Info" click="get-info" hotkey="alt+i"/>
+		<Menu type="divider"/>
 		<Menu name="Close Window" click="close-spawn" hotkey="alt+shift+w"/>
 		<Menu name="Close Tab" click="close-tab" hotkey="alt+w"/>
 		<Menu type="divider"/>

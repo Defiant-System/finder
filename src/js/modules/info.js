@@ -31,6 +31,11 @@
 			case "toggle-wrapper":
 				event.el.toggleClass("expanded", event.el.hasClass("expanded"));
 				break;
+			case "close-tab":
+			case "close-spawn":
+				// system close window / spawn
+				defiant.shell("win -c");
+				break;
 			default:
 				// proxy event to section module
 				el = event.target ? $(event.target) : event.el;

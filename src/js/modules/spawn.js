@@ -32,7 +32,7 @@
 				Spawn.find(".icon-resizer").val(value);
 
 				// temp
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 100);
+				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 100);
 				// setTimeout(() => Spawn.find(`.ant-file_:nth(16)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="-1"]`).trigger("click"), 500);
 				
@@ -135,6 +135,11 @@
 			case "close-spawn":
 				// system close window / spawn
 				defiant.shell("win -c");
+				break;
+			case "get-info":
+				// TODO: get selected FS item / Path
+				let file = new defiant.File({ path: "/fs/Documents/mnist-3.png" });
+				APP.dispatch({ type: "file.info", files: [file] });
 				break;
 
 			// custom events
