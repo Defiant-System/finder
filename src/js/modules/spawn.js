@@ -32,7 +32,7 @@
 				Spawn.find(".icon-resizer").val(value);
 
 				// temp
-				setTimeout(() => Spawn.find(`.ant-file_:nth(1)`).trigger("click"), 100);
+				// setTimeout(() => Spawn.find(`.ant-file_:nth(11)`).trigger("click"), 100);
 				// setTimeout(() => Spawn.find(`.ant-file_:nth(16)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="-1"]`).trigger("click"), 500);
 				
@@ -137,9 +137,20 @@
 				defiant.shell("win -c");
 				break;
 			case "get-info":
+				let view = window.settings.getItem("finder-file-view"),
+					files = view === "columns"
+							? Spawn.find(`.column_:not([data-kind]):last .file-active_`)
+							: Spawn.find(`content .file-active_`);
+
+				files = files.map(elem => {
+					let $el = $(elem),
+						itemName = $el.find(".file-name_").text(),
+						path = window.path.join("/fs", $el.parents("[data-path]").data("path"), itemName);
+					return new defiant.File({ path });
+				});
+
 				// TODO: get selected FS item / Path
-				let file = new defiant.File({ path: "/fs/Documents/mnist-3.png" });
-				APP.dispatch({ type: "file.info", files: [file] });
+				APP.dispatch({ type: "file.info", files });
 				break;
 
 			// custom events
