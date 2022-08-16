@@ -28,6 +28,7 @@ const finder = {
 		}
 
 		switch (event.type) {
+			case "window.init":
 			case "new":
 				name = event.id || "spawn";
 				dim = event.dim || null;

@@ -32,7 +32,7 @@
 				Spawn.find(".icon-resizer").val(value);
 
 				// temp
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(11)`).trigger("click"), 100);
+				// setTimeout(() => Spawn.find(`.ant-file_:nth(10)`).trigger("click"), 100);
 				// setTimeout(() => Spawn.find(`.ant-file_:nth(16)`).trigger("click"), 200);
 				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="-1"]`).trigger("click"), 500);
 				
