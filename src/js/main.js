@@ -12,7 +12,7 @@ const finder = {
 			.filter(i => typeof this[i].init === "function")
 			.map(i => this[i].init());
 
-		let call = await defiant.shell("fs -ih");
+		let call = await karaqu.shell("fs -ih");
 		disk = call.result;
 	},
 	dispatch(event) {
@@ -54,7 +54,7 @@ const finder = {
 			// 	Self.spawn.dispatch({ ...event, spawn });
 			// 	break;
 			case "open-help":
-				defiant.shell("fs -u '~/help/index.md'");
+				karaqu.shell("fs -u '~/help/index.md'");
 				break;
 		}
 	},

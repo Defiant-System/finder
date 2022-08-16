@@ -134,7 +134,7 @@
 				break;
 			case "close-spawn":
 				// system close window / spawn
-				defiant.shell("win -c");
+				karaqu.shell("win -c");
 				break;
 			case "get-info":
 				let view = window.settings.getItem("finder-file-view"),
@@ -146,7 +146,7 @@
 					let $el = $(elem),
 						itemName = $el.find(".file-name_").text(),
 						path = window.path.join("/fs", $el.parents("[data-path]").data("path"), itemName);
-					return new defiant.File({ path });
+					return new karaqu.File({ path });
 				});
 
 				// TODO: get selected FS item / Path

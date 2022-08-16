@@ -34,7 +34,7 @@
 			case "close-tab":
 			case "close-spawn":
 				// system close window / spawn
-				defiant.shell("win -c");
+				karaqu.shell("win -c");
 				break;
 			default:
 				// proxy event to section module
