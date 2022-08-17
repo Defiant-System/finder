@@ -6,6 +6,15 @@
 		// temp
 		// window.settings.setItem("finder-file-view", "columns");
 	},
+	dispose(event) {
+		let Spawn = event.spawn;
+		let cmd = { type: "open.file", files: [] };
+		for (let key in Spawn.data.tabs._stack) {
+			let tab = Spawn.data.tabs._stack[key];
+			cmd.files.push(tab.history.current.cwd);
+		}
+		return cmd;
+	},
 	dispatch(event) {
 		let APP = finder,
 			Self = APP.spawn,
@@ -44,13 +53,6 @@
 				// auto add first base "tab"
 				Self.dispatch({ ...event, path: value, type: "new-tab" });
 				break;
-			case "restart.cmd":
-				let cmd = { type: "open.file", files: [] };
-				for (let key in Spawn.data.tabs._stack) {
-					let tab = Spawn.data.tabs._stack[key];
-					cmd.files.push(tab.history.current.cwd);
-				}
-				return cmd;
 			case "open.file":
 				(event.files || [event]).map(file => {
 					// auto add first base "tab"

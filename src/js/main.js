@@ -15,6 +15,11 @@ const finder = {
 		let call = await karaqu.shell("fs -ih");
 		disk = call.result;
 	},
+	dispose(event) {
+		if (event.spawn) {
+			return this.spawn.dispose(event);
+		}
+	},
 	dispatch(event) {
 		let Self = finder,
 			spawn,
