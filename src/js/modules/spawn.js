@@ -51,12 +51,12 @@
 			case "spawn.init":
 				value = window.settings.getItem("finder-default-path");
 				// auto add first base "tab"
-				Self.dispatch({ ...event, path: value, type: "new-tab" });
+				Self.dispatch({ ...event, path: value, type: "tab-new" });
 				break;
 			case "open.file":
 				(event.files || [event]).map(file => {
 					// auto add first base "tab"
-					Self.dispatch({ ...event, path: file.path, type: "new-tab" });
+					Self.dispatch({ ...event, path: file.path, type: "tab-new" });
 				});
 				break;
 
@@ -74,7 +74,7 @@
 				break;
 
 			// tab related events
-			case "new-tab":
+			case "tab-new":
 				// purge "tab body" contents
 				Spawn.data.tabs.purgeBody();
 				// name of directory
