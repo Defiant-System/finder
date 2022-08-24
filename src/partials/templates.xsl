@@ -132,6 +132,10 @@
 				<span>Modified</span>
 				<span class="value-lastModified"><xsl:call-template name="sys:fileModified"/></span>
 			</li>
+			<li>
+				<span>Cached</span>
+				<span class="value-cached">N/A</span>
+			</li>
 			<li class="divider"></li>
 			<xsl:if test="@kind = 'app'">
 				<xsl:variable name="xApp" select="/ledger/Settings/Apps/i[@ns=current()/@ns][@id=current()/@id]"/>
