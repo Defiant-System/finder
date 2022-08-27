@@ -14,6 +14,9 @@ const finder = {
 
 		let call = await karaqu.shell("fs -ih");
 		disk = call.result;
+
+		// temp
+		// setTimeout(() => karaqu.shell("win -a"), 300);
 	},
 	dispose(event) {
 		if (event.spawn) {
