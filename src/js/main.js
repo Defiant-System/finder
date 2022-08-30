@@ -17,9 +17,11 @@ const finder = {
 
 		// temp
 		// setTimeout(() => karaqu.shell("win -a"), 300);
+		// setTimeout(() => karaqu.shell("fs -u '~/help/index.md'"), 300);
+		// setTimeout(() => karaqu.shell("fs -u '~/help/toc.md'"), 300);
 	},
 	dispose(event) {
-		if (event.spawn) {
+		if (event.spawn && !event.spawn._id.endsWith("-info")) {
 			return this.spawn.dispose(event);
 		}
 	},
