@@ -154,6 +154,9 @@
 				// TODO: get selected FS item / Path
 				APP.dispatch({ type: "file.info", files });
 				break;
+			case "open-help":
+				karaqu.shell("fs -u '~/help/index.md'");
+				break;
 
 			// custom events
 			case "get-sidebar-item":

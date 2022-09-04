@@ -63,9 +63,6 @@ const finder = {
 			// 	spawn = window.open("spawn");
 			// 	Self.spawn.dispatch({ ...event, spawn });
 			// 	break;
-			case "open-help":
-				karaqu.shell("fs -u '~/help/index.md'");
-				break;
 		}
 	},
 	info: @import "modules/info.js",

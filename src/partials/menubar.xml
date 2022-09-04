@@ -37,9 +37,7 @@
 		<Menu name="Close Window" shell="win -c"/>
 	</Menu>
 	<Menu name="Help">
-		<Menu name="Send Finder Feedback"/>
-		<Menu type="divider"/>
-		<Menu name="Finder Help"/>
+		<Menu name="Finder Help" click="open-help"/>
 		<Menu type="divider"/>
 		<Menu name="License"/>
 	</Menu>
