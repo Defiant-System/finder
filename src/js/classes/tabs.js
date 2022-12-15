@@ -85,6 +85,15 @@ class Tabs {
 		// console.log( this._active.history.current );
 	}
 
+	reRender(view) {
+		// render content
+		window.render({
+			template: "sys:fs-fileView",
+			target: view.parent().parent(),
+			path: view.data("path"),
+		});
+	}
+
 	setViewState(render) {
 		let target = this._target,
 			history = this._active.history,

@@ -87,6 +87,9 @@
 			case "tab.close":
 				Spawn.data.tabs.remove(event.el.data("id"));
 				break;
+			case "re-render-view":
+				Spawn.data.tabs.reRender(event.el);
+				break;
 
 			// toolbar events
 			case "history-go":
