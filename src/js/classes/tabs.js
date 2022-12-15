@@ -89,7 +89,7 @@ class Tabs {
 		// render content
 		window.render({
 			template: "sys:fs-fileView",
-			target: view.parent().parent(),
+			target: view.parents(".fs-root_").parent(),
 			path: view.data("path"),
 		});
 	}
