@@ -157,7 +157,7 @@ class Tabs {
 		// clean up
 		if (state.kind === "_dir") delete state.kind;
 		// update status-bar
-		let cEl = target.find(".column_:last"),
+		let cEl = target.hasClass("fs-columns_") ? target.find(".column_:last") : target.find(".fs-root_"),
 			len = cEl.find(".ant-file_").length,
 			str = `${len} items, ${disk.avail} available`;
 		if (state.kind) {
