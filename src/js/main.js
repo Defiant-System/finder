@@ -59,10 +59,10 @@ const finder = {
 					Self.dispatch({ type: "new", id: "info", file, dim });
 				});
 				break;
-			// case "open.file":
-			// 	spawn = window.open("spawn");
-			// 	Self.spawn.dispatch({ ...event, spawn });
-			// 	break;
+			case "open.file":
+				spawn = window.open("spawn");
+				Self.spawn.dispatch({ ...event, spawn });
+				break;
 		}
 	},
 	info: @import "modules/info.js",
