@@ -55,8 +55,13 @@
 				break;
 			case "open.file":
 				(event.files || [event]).map(file => {
+					let ev = { ...event, path: file.path, type: "tab.new" };
+					if (!event.tab && Spawn.data.tabs.length) {
+						ev.type = "fs-view-render";
+						ev.render = true;
+					}
 					// auto add first base "tab"
-					Self.dispatch({ ...event, path: file.path, type: "tab.new" });
+					Self.dispatch(ev);
 				});
 				break;
 
@@ -65,7 +70,7 @@
 				state = {
 					...Spawn.data.tabs.history.current,
 					cwd: event.path,
-					render: false,
+					render: event.render || false,
 				};
 				// add kind to state object
 				if (event.kind) state.kind = event.kind;
