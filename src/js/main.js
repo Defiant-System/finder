@@ -3,6 +3,7 @@ let disk;
 let infoIndex = { x: 0, y: 0 };
 
 @import "classes/tabs.js"
+@import "modules/test.js"
 
 
 const finder = {
