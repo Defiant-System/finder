@@ -40,13 +40,9 @@
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
 
-				// temp
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(10)`).trigger("click"), 100);
-				// setTimeout(() => Spawn.find(`.ant-file_:nth(16)`).trigger("click"), 200);
-				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="-1"]`).trigger("click"), 500);
-				
-				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="icons"]`).trigger("click"), 500);
-				// setTimeout(() => Spawn.find(`.toolbar-tool_[data-arg="columns"]`).trigger("click"), 1200);
+				// DEV-ONLY-START
+				Test.init(APP, Spawn);
+				// DEV-ONLY-END
 				break;
 			case "spawn.init":
 				value = window.settings.getItem("finder-default-path");
