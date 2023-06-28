@@ -52,10 +52,11 @@
 			case "open.file":
 				(event.files || [event]).map(file => {
 					let ev = { ...event, path: file.path, type: "tab.new" };
-					if (!event.tab && Spawn.data.tabs.length) {
-						ev.type = "fs-view-render";
-						ev.render = true;
-					}
+					// have forgotten what the lines below was for; disabling for now
+					// if (!event.tab && Spawn.data.tabs.length) {
+					// 	ev.type = "fs-view-render";
+					// 	ev.render = true;
+					// }
 					// auto add first base "tab"
 					Self.dispatch(ev);
 				});
