@@ -180,6 +180,10 @@
 				window.settings.setItem("finder-icon-size", +event.value);
 				Spawn.find("content > div").css({ "--icon-size": `${event.value}px` });
 				break;
+			case "toggle-statusbar-view":
+				value = Spawn.el.hasClass("has-StatusBar_");
+				Spawn.el.toggleClass("has-StatusBar_", value);
+				return `toggle_${!value}`;
 		}
 	}
 }

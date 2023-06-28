@@ -15,6 +15,6 @@
 		<Tool symbol="icon-gear" menu="toolbar-context"/>
 	</Group>
 	<Group width="31%">
-		<Search placeholder="Search" state="disabled"/>
+		<Search placeholder="Search"/>
 	</Group>
 </ToolBar>
