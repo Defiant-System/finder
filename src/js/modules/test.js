@@ -2,10 +2,12 @@
 let Test = {
 	init(APP, spawn) {
 
-		// spawn.dialog.open({
-		// 	txt: fsItem => console.log(fsItem),
-		// 	md: fsItem => console.log(fsItem),
-		// });
+		return;
+		// setTimeout(() => {}, 2000);
+		spawn.dialog.open({
+			txt: fsItem => console.log(fsItem),
+			md: fsItem => console.log(fsItem),
+		});
 		// window.dialog.save(Tabs.active.file, Tabs.active.file.toBlob());
 
 		// setTimeout(() => spawn.dialog.alert("test"), 100);
