@@ -51,12 +51,13 @@
 				break;
 			case "open.file":
 				(event.files || [event]).map(file => {
-					let ev = { ...event, path: file.path, type: "tab.new" };
-					// have forgotten what the lines below was for; disabling for now
-					// if (!event.tab && Spawn.data.tabs.length) {
-					// 	ev.type = "fs-view-render";
-					// 	ev.render = true;
-					// }
+					let path = file.kind !== "_dir" ? file.dir : file.path,
+						ev = { ...event, path, type: "tab.new" };
+					// this makes dbl-clicking on folder to open in same window
+					if (!event.tab && Spawn.data.tabs.length) {
+						ev.type = "fs-view-render";
+						ev.render = true;
+					}
 					// auto add first base "tab"
 					Self.dispatch(ev);
 				});
