@@ -27,6 +27,13 @@
 					path: event.file.path,
 				});
 				break;
+			case "open.file":
+				Self.dispatch({
+					...event,
+					type: "spawn.init",
+					file: event.files[0]
+				});
+				break;
 			// custom events
 			case "toggle-wrapper":
 				event.el.toggleClass("expanded", event.el.hasClass("expanded"));
