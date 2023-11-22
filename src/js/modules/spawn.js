@@ -25,7 +25,6 @@
 			tabs,
 			curr,
 			el;
-		// console.log(event);
 		switch (event.type) {
 			// system events
 			case "spawn.open":
@@ -39,6 +38,9 @@
 				value = window.settings.getItem("finder-icon-size");
 				Spawn.find("content > div").css({ "--icon-size": `${value}px` });
 				Spawn.find(".icon-resizer").val(value);
+
+				// subscribe to system event
+				karaqu.on("sys:fs.storage-size", e => Self.dispatch({ ...e, spawn: Spawn }));
 
 				// DEV-ONLY-START
 				Test.init(APP, Spawn);
@@ -62,7 +64,6 @@
 					Self.dispatch(ev);
 				});
 				break;
-
 			// this event is passed from filesystem event handler
 			case "fs-view-render":
 				state = {
@@ -74,6 +75,15 @@
 				if (event.kind) state.kind = event.kind;
 				// push state to active tab history stack
 				Spawn.data.tabs.historyPush(state);
+				break;
+			case "fs.storage-size":
+				karaqu.shell("fs -ih").then(call => {
+					// update local variable
+					disk = call.result;
+					// refresh UI / statusbar
+					let state = Spawn.data.tabs._active.history.current;
+					Spawn.data.tabs.updateStatusbar(state);
+				});
 				break;
 
 			// tab related events

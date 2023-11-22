@@ -166,7 +166,14 @@ class Tabs {
 		// clean up
 		if (state.kind === "_dir") delete state.kind;
 		// update status-bar
-		let cEl = target.hasClass("fs-columns_") ? target.find(".column_:last") : target.find(".fs-root_"),
+		this.updateStatusbar(state, target);
+		// show status-bar slider only for icons view
+		this._spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
+	}
+
+	updateStatusbar(state, _target) {
+		let target = _target || this._target,
+			cEl = target.hasClass("fs-columns_") ? target.find(".column_:last") : target.find(".fs-root_"),
 			len = cEl.find(".ant-file_").length,
 			str = `${len} items, ${disk.avail} available`;
 		if (state.kind) {
@@ -176,7 +183,5 @@ class Tabs {
 			str = `${selected} of ${len} selected, ${disk.avail} available`;
 		}
 		this._spawn.statusBar.find(".content").text(str);
-		// show status-bar slider only for icons view
-		this._spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
 	}
 }
