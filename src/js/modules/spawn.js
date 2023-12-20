@@ -40,7 +40,7 @@
 				Spawn.find(".icon-resizer").val(value);
 
 				// subscribe to system event
-				karaqu.on("sys:fs.storage-size", e => Self.dispatch({ ...e, spawn: Spawn }));
+				window.on("sys:fs.storage-size", e => Self.dispatch({ ...e, spawn: Spawn }));
 
 				// DEV-ONLY-START
 				Test.init(APP, Spawn);
