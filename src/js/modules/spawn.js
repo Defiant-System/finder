@@ -61,7 +61,7 @@
 						ev.render = true;
 					}
 					// auto add first base "tab"
-					Self.dispatch(ev);
+					setTimeout(() => Self.dispatch(ev), 1);
 				});
 				break;
 			// this event is passed from filesystem event handler
