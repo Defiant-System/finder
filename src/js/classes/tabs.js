@@ -99,13 +99,16 @@ class Tabs {
 			history = this._active.history,
 			state = history.current,
 			path = state.cwd,
-			firstPath = state.columns && state.columns[0] ? state.columns[0] : path;
+			firstPath = state.columns && state.columns[0] ? state.columns[0] : path,
+			name = window.path.dirname(path);
 		// fixes ~
 		if (firstPath && firstPath.startsWith("~/")) {
 			firstPath = `/fs/${firstPath.slice(2)}`;
 		}
+		// update tab title
+		this._active.el.html(name);
 		// update window title
-		this._spawn.title = window.path.dirname(path);
+		this._spawn.title = name;
 		// update sidebar "active"
 		this._spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
 		this._spawn.find(`sidebar li[data-path="${firstPath}"]`).addClass("sidebar-active_");
@@ -127,7 +130,7 @@ class Tabs {
 			if (state.view === "columns") {
 				// remove redundant columns
 				target.find(`.column_`).map(el => {
-					if (!state.columns.includes(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
+					if (state.columns && !state.columns.includes(el.getAttribute("data-path"))) el.parentNode.removeChild(el);
 				});
 				// empty contents if not already columns-view
 				if (!target.hasClass("fs-columns_")) target.html("");
