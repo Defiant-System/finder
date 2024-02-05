@@ -53,7 +53,7 @@
 				break;
 			case "open.file":
 				(event.files || [event]).map(file => {
-					let path = file.kind !== "_dir" ? file.dir : file.path,
+					let path = typeof file === "string" ? file : (file.kind !== "_dir" ? file.dir : file.path),
 						ev = { ...event, path, type: "tab.new" };
 					// this makes dbl-clicking on folder to open in same window
 					if (!event.tab && Spawn.data.tabs.length) {
