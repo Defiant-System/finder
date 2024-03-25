@@ -16,8 +16,6 @@
 		<Menu name="Cut"/>
 		<Menu name="Copy"/>
 		<Menu name="Paste"/>
-		<Menu type="divider"/>
-		<Menu name="License"/>
 	</Menu>
 	<Menu name="View">
 		<Menu name="View&#8230;" invoke="view-options"/>
@@ -39,10 +37,10 @@
 	<Menu name="Help">
 		<Menu name="Finder Help" click="open-help"/>
 		<Menu type="divider"/>
-		<Menu name="License"/>
+		<Menu name="License" shell="win -al"/>
 	</Menu>
 
-	<Menu name="View" for="toolbar-context">
+	<Menu for="toolbar-context">
 		<Menu name="View&#8230;" for="view-options">
 			<Menu name="as Icons" click="select-file-view" arg="icons" check-group="view-items-as"/>
 			<Menu name="as List" click="select-file-view" arg="list" check-group="view-items-as"/>
