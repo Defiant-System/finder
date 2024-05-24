@@ -139,6 +139,7 @@ class Tabs {
 					target.append(`<div class="fs-root_"></div>`);
 				}
 				let cols = state.columns && state.columns.length ? state.columns : [state.cwd];
+				if (cols.length === 1 && cols[0] !== state.cwd) cols[0] = state.cwd;
 				// render missing columns
 				cols.map(path => {
 					let column = this._spawn.find(`content > div .column_[data-path="${path}"]`),

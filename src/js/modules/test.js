@@ -1,8 +1,10 @@
 
 let Test = {
 	init(APP, spawn) {
-
 		return;
+		setTimeout(() => spawn.find(`.ant-file_:nth(10)`).trigger("click"), 400);
+		
+		
 		// setTimeout(() => {}, 2000);
 		spawn.dialog.open({
 			txt: fsItem => console.log(fsItem),
