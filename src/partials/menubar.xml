@@ -58,7 +58,7 @@
 			<Menu name="Hide Sidebar" toggle_false="Show Sidebar" click="toggle-sidebar-view"/>
 			<Menu name="Hide Status Bar" toggle_false="Show Status Bar" click="toggle-statusbar-view"/>
 			<Menu type="divider"/>
-			<Menu name="Hide Toolbar" toggle_true="Show Toolbar" click="toggle-toolbar"/>
+			<Menu name="Hide Toolbar" toggle_true="Show Toolbar" click="toggle-toolbar" disabled="1"/>
 		</Menu>
 	</Menu>
 </MenuBar>
