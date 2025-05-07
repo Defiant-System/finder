@@ -2,6 +2,8 @@
 let Test = {
 	init(APP, spawn) {
 		return;
+		// setTimeout(() => APP.dispatch({ type: "tab.new", spawn }), 800);
+		setTimeout(() => spawn.find(`.toolbar-tool_:nth(5) .tool-icon_`).trigger("mousedown"), 400);
 		setTimeout(() => spawn.find(`.ant-file_:nth(10)`).trigger("click"), 400);
 		
 		

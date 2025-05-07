@@ -16,7 +16,7 @@
 	</Head>
 	<Foot>
 		<Group>
-			<Text class="content"></Text>
+			<Text class="content_"></Text>
 			<Slider class="icon-resizer" value="79" min="53" max="181" change="set-icon-size"></Slider>
 		</Group>
 	</Foot>

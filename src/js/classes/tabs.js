@@ -22,7 +22,7 @@ class Tabs {
 			el = this._spawn.tabs.add(name, tId),
 			history = new window.History,
 			state = { cwd, view };
-		
+
 		if (isObj) {
 			if (opt.kind) state.kind = opt.kind;
 			if (opt.columns) state.columns = opt.columns;
@@ -106,7 +106,7 @@ class Tabs {
 			firstPath = `/fs/${firstPath.slice(2)}`;
 		}
 		// update tab title
-		this._active.el.html(name);
+		this._active.el.find("span").html(name);
 		// update window title
 		this._spawn.title = name;
 		// update sidebar "active"
@@ -172,7 +172,8 @@ class Tabs {
 		// update status-bar
 		this.updateStatusbar(state, target);
 		// show status-bar slider only for icons view
-		this._spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
+		this._spawn.statusBar.find(".icon-resizer").parent().toggleClass("show-range_", state.view !== "icons");
+		// this._spawn.statusBar.find(".icon-resizer").css({display: state.view === "icons" ? "block" : "none"});
 	}
 
 	updateStatusbar(state, _target) {
@@ -186,6 +187,6 @@ class Tabs {
 			let selected = state.kind === "_dir" ? cEl.find(".ant-file_.file-active").length : 1;
 			str = `${selected} of ${len} selected, ${disk.avail} available`;
 		}
-		this._spawn.statusBar.find(".content").text(str);
+		this._spawn.statusBar.find(".content_").text(str);
 	}
 }
