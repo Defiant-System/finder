@@ -261,7 +261,7 @@
 					<span class="disabled_" data-click="remove-user">
 						<span class="icon-minus"></span>
 					</span>
-					<span data-menu="apply-action">
+					<span>
 						<xsl:if test="@kind = 'app'">
 							<xsl:attribute name="class">disabled_</xsl:attribute>
 						</xsl:if>
