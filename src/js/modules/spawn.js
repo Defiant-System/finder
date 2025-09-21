@@ -25,6 +25,7 @@
 			tabs,
 			curr,
 			el;
+		// console.log(event);
 		switch (event.type) {
 			// system events
 			case "spawn.open":
@@ -64,6 +65,7 @@
 					setTimeout(() => Self.dispatch(ev), 1);
 				});
 				break;
+
 			// this event is passed from filesystem event handler
 			case "fs-view-render":
 				state = {
@@ -175,6 +177,7 @@
 				break;
 
 			// custom events
+			case "change-working-directory":
 			case "get-sidebar-item":
 				// purge "tab body" contents
 				Spawn.data.tabs.purgeBody();

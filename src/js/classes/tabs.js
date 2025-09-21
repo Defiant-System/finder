@@ -108,7 +108,11 @@ class Tabs {
 		// update tab title
 		this._active.el.find("span").html(name);
 		// update window title
-		this._spawn.title = name;
+		this._spawn.title = {
+			name: `<i class="icon-folder"></i> ${name}`,
+			context: `sys:fs-title-menu`,
+			path
+		};
 		// update sidebar "active"
 		this._spawn.find(`sidebar .sidebar-active_`).removeClass("sidebar-active_");
 		this._spawn.find(`sidebar li[data-path="${firstPath}"]`).addClass("sidebar-active_");
